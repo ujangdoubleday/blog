@@ -292,9 +292,14 @@ Test structure:
 - **`pytest.ini`** - Pytest configuration file
 - **Coverage: 71%** - Current test coverage
 
-### 🔧 Pre-commit Hooks
+### Pre-commit Hooks
 
 This project uses **pre-commit** to ensure code quality and consistency.
+
+Install pre-commit hooks:
+```bash
+pre-commit install
+```
 
 Run pre-commit manually:
 ```bash

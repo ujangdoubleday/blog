@@ -2,7 +2,7 @@
     <div class="container">
         <div class="site-branding">
             {% if config.site.logo %}
-            <img src="{{ config.site.logo }}" alt="{{ config.site.title }}" class="site-logo">
+            <img src="{{ config.site.logo | image }}" alt="{{ config.site.title }}" class="site-logo">
             {% endif %}
             <h1 class="site-title">
                 <a href="/">{{ config.site.title }}</a>

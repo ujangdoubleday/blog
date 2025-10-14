@@ -3,7 +3,10 @@ Asset processing for SCSS, JavaScript, and images
 """
 
 import re
+import json
+import hashlib
 import shutil
+import time
 from pathlib import Path
 from typing import Dict, Any
 
@@ -16,6 +19,8 @@ class AssetProcessor:
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
+        self.asset_manifest = {}  # Maps original names to hashed names
+        self.build_timestamp = str(int(time.time()))  # Unique build identifier
 
     def process_all(self):
         """Process all static assets"""
@@ -27,11 +32,17 @@ class AssetProcessor:
         (output_assets / "js").mkdir(parents=True, exist_ok=True)
         (output_assets / "images").mkdir(parents=True, exist_ok=True)
 
+        # Reset asset manifest
+        self.asset_manifest = {}
+
         # Process different asset types
         self._process_scss(static_dir, output_assets)
         self._process_javascript(static_dir, output_assets)
         self._process_images(static_dir, output_assets)
         self._copy_template_assets(output_assets)
+
+        # Save asset manifest
+        self._save_asset_manifest(output_assets)
 
         print("Processed all assets")
 
@@ -49,9 +60,19 @@ class AssetProcessor:
                 else:
                     print("Compiled SCSS to CSS")
 
-                css_output = output_assets / "css" / "main.css"
+                # Generate hashed filename
+                original_name = "main.css"
+                hashed_name = self._get_hashed_filename(original_name, css_content)
+
+                # Update manifest
+                manifest_key = f"css/{original_name}"
+                self.asset_manifest[manifest_key] = f"css/{hashed_name}"
+
+                css_output = output_assets / "css" / hashed_name
                 with open(css_output, "w", encoding="utf-8") as f:
                     f.write(css_content)
+
+                print(f"Generated CSS: {hashed_name}")
             except Exception as e:
                 print(f"Error compiling SCSS: {e}")
 
@@ -68,9 +89,18 @@ class AssetProcessor:
             else:
                 print("Copied JavaScript")
 
-            js_output = output_assets / "js" / "main.js"
+            # Generate hashed filename
+            original_name = "main.js"
+            hashed_name = self._get_hashed_filename(original_name, js_content)
+
+            # Update manifest
+            self.asset_manifest[f"js/{original_name}"] = f"js/{hashed_name}"
+
+            js_output = output_assets / "js" / hashed_name
             with open(js_output, "w", encoding="utf-8") as f:
                 f.write(js_content)
+
+            print(f"Generated JS: {hashed_name}")
 
     def _process_images(self, static_dir: Path, output_assets: Path):
         """Copy and optimize images"""
@@ -86,7 +116,20 @@ class AssetProcessor:
                     ".svg",
                 ]:
                     relative_path = img_file.relative_to(images_dir)
-                    output_img = output_assets / "images" / relative_path
+
+                    # Read file content for hashing
+                    img_content = img_file.read_bytes()
+
+                    # Generate hashed filename
+                    original_name = str(relative_path).replace("\\", "/")
+                    hashed_name = self._get_hashed_filename(original_name, img_content)
+
+                    # Update manifest
+                    self.asset_manifest[
+                        f"images/{original_name}"
+                    ] = f"images/{hashed_name}"
+
+                    output_img = output_assets / "images" / hashed_name
                     output_img.parent.mkdir(parents=True, exist_ok=True)
 
                     if self.config.get("assets", {}).get(
@@ -156,3 +199,34 @@ class AssetProcessor:
         js_content = re.sub(r"\n+", "", js_content)
         js_content = re.sub(r"\s+", " ", js_content)
         return js_content.strip()
+
+    def _generate_hash(self, content, length: int = 8) -> str:
+        """Generate hash from content + build timestamp for cache busting"""
+        if isinstance(content, str):
+            content_bytes = content.encode()
+        else:
+            content_bytes = content
+
+        # Combine content with build timestamp for unique hash every build
+        combined_content = content_bytes + self.build_timestamp.encode()
+        return hashlib.md5(combined_content).hexdigest()[:length]
+
+    def _get_hashed_filename(self, original_name: str, content) -> str:
+        """Generate hashed filename"""
+        use_hash = self.config.get("assets", {}).get("use_hash", True)
+        if not use_hash:
+            return original_name
+
+        name_parts = original_name.rsplit(".", 1)
+        if len(name_parts) == 2:
+            name, ext = name_parts
+            file_hash = self._generate_hash(content)
+            return f"{name}-{file_hash}.{ext}"
+        return original_name
+
+    def _save_asset_manifest(self, output_assets: Path):
+        """Save asset manifest to JSON file"""
+        manifest_file = output_assets / "manifest.json"
+        with open(manifest_file, "w", encoding="utf-8") as f:
+            json.dump(self.asset_manifest, f, indent=2)
+        print("Generated asset manifest")

@@ -22,7 +22,11 @@ navigation:
   - name: "Home"
     url: "/"
   - name: "About"
-    url: "/pages/about.html"
+    url: "/about/"
+  - name: "Categories"
+    url: "/categories/"
+  - name: "Tags"
+    url: "/tags/"
 
 # Social links
 social:
@@ -52,3 +56,4 @@ assets:
   minify_html: true
   optimize_images: true
   image_quality: 85
+  use_hash: true

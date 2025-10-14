@@ -18,6 +18,7 @@ class TemplateRenderer:
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
+        self.asset_manifest = {}
         self.jinja_env = self._setup_jinja()
 
     def _setup_jinja(self) -> Environment:
@@ -34,8 +35,47 @@ class TemplateRenderer:
             if len(text) > length
             else text
         )
+        env.filters["asset"] = self._asset_url
+        env.filters["image"] = self._image_url
 
         return env
+
+    def set_asset_manifest(self, manifest: Dict[str, str]):
+        """Set the asset manifest"""
+        self.asset_manifest = manifest
+
+    def _asset_url(self, path: str) -> str:
+        """Get the actual asset URL from manifest"""
+        # Remove leading slash if present
+        path = path.lstrip("/")
+
+        # Check if path is in manifest
+        if path in self.asset_manifest:
+            return f"/_sync/{self.asset_manifest[path]}"
+
+        # Fallback to original path
+        return f"/_sync/{path}"
+
+    def _image_url(self, path: str) -> str:
+        """Get the actual image URL from manifest"""
+        if not path:
+            return ""
+
+        # Remove leading slash and _sync if present
+        path = path.lstrip("/")
+        if path.startswith("_sync/"):
+            path = path[6:]  # Remove "_sync/"
+
+        # If path doesn't start with images/, add it
+        if not path.startswith("images/"):
+            path = f"images/{path}"
+
+        # Check if path is in manifest
+        if path in self.asset_manifest:
+            return f"/_sync/{self.asset_manifest[path]}"
+
+        # Fallback to original path
+        return f"/_sync/{path}"
 
     def _minify_html(self, html: str) -> str:
         """Minify HTML content"""
@@ -54,12 +94,35 @@ class TemplateRenderer:
         # Replace multiple spaces with single space
         html = re.sub(r" {2,}", " ", html)
 
-        # Remove newlines and tabs (preserve content in pre, script, style)
-        # First, protect content in pre, script, style tags
+        # Handle inline JavaScript minification in script tags
+        script_pattern = r"<script(?:[^>]*)>(.*?)</script>"
+
+        def minify_script_content(match):
+            script_tag_start = match.group(0).split(">")[0] + ">"
+            script_content = match.group(1)
+            script_tag_end = "</script>"
+
+            # Only minify if JavaScript minification is enabled
+            if self.config.get("assets", {}).get("minify_js", False):
+                # Apply JavaScript minification
+                minified_js = self._minify_inline_js(script_content)
+                return script_tag_start + minified_js + script_tag_end
+            else:
+                # Keep original content but remove excessive whitespace
+                script_content = re.sub(r"\s+", " ", script_content).strip()
+                return script_tag_start + script_content + script_tag_end
+
+        flags = re.DOTALL | re.IGNORECASE
+        html = re.sub(script_pattern, minify_script_content, html, flags=flags)
+
+        # Remove newlines and tabs
+        # (preserve content in pre and style tags only)
+        # First, protect content in pre and style tags
+        # (but not script, as we handled it above)
         protected_content = {}
         counter = 0
 
-        for tag in ["pre", "script", "style"]:
+        for tag in ["pre", "style"]:
             pattern = f"<{tag}[^>]*?>.*?</{tag}>"
             matches = re.finditer(pattern, html, re.DOTALL | re.IGNORECASE)
             for match in matches:
@@ -78,11 +141,28 @@ class TemplateRenderer:
 
         return html.strip()
 
+    def _minify_inline_js(self, js_content: str) -> str:
+        """Minify inline JavaScript content"""
+        # Remove single-line comments (but keep URLs)
+        js_content = re.sub(
+            r"(?<!http:)(?<!https:)//.*$", "", js_content, flags=re.MULTILINE
+        )
+        # Remove multi-line comments
+        js_content = re.sub(r"/\*.*?\*/", "", js_content, flags=re.DOTALL)
+        # Remove unnecessary whitespace around operators and delimiters
+        js_content = re.sub(r"\s*([{}();,:])\s*", r"\1", js_content)
+        js_content = re.sub(r"\s*=\s*", "=", js_content)
+        js_content = re.sub(r"\s*\|\|\s*", "||", js_content)
+        js_content = re.sub(r"\s*&&\s*", "&&", js_content)
+        # Remove extra newlines and spaces
+        js_content = re.sub(r"\n+", "", js_content)
+        js_content = re.sub(r"\s+", " ", js_content)
+        return js_content.strip()
+
     def render_posts(self, posts: List[Post]):
         """Render individual post pages"""
         template = self.jinja_env.get_template("post.html")
-        output_dir = Path(self.config["build"]["output_dir"]) / "posts"
-        output_dir.mkdir(parents=True, exist_ok=True)
+        output_base_dir = Path(self.config["build"]["output_dir"])
 
         for i, post in enumerate(posts):
             # Get previous and next posts for navigation
@@ -100,7 +180,18 @@ class TemplateRenderer:
             # Minify HTML if enabled
             html = self._minify_html(html)
 
-            output_file = output_dir / f"{post.slug}.html"
+            # Create directory structure based on URL
+            # URL format: /{category}/{slug}/ or /{slug}/
+            if post.category:
+                # Create category/slug/ folder
+                post_dir = output_base_dir / post.category / post.slug
+            else:
+                # Create slug/ folder directly
+                post_dir = output_base_dir / post.slug
+
+            post_dir.mkdir(parents=True, exist_ok=True)
+            output_file = post_dir / "index.html"
+
             with open(output_file, "w", encoding="utf-8") as f:
                 f.write(html)
 
@@ -114,8 +205,7 @@ class TemplateRenderer:
     def render_pages(self, pages: List[Page]):
         """Render static pages"""
         template = self.jinja_env.get_template("page.html")
-        output_dir = Path(self.config["build"]["output_dir"]) / "pages"
-        output_dir.mkdir(parents=True, exist_ok=True)
+        output_base_dir = Path(self.config["build"]["output_dir"])
 
         for page in pages:
             current_year = datetime.datetime.now().year
@@ -126,7 +216,11 @@ class TemplateRenderer:
             # Minify HTML if enabled
             html = self._minify_html(html)
 
-            output_file = output_dir / f"{page.slug}.html"
+            # Create directory structure: /{slug}/index.html
+            page_dir = output_base_dir / page.slug
+            page_dir.mkdir(parents=True, exist_ok=True)
+            output_file = page_dir / "index.html"
+
             with open(output_file, "w", encoding="utf-8") as f:
                 f.write(html)
 

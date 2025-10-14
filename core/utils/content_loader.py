@@ -29,7 +29,7 @@ class ContentLoader:
             posts_dir.mkdir(parents=True, exist_ok=True)
             return posts
 
-        for md_file in posts_dir.glob("*.md"):
+        for md_file in posts_dir.rglob("*.md"):
             try:
                 post_data = frontmatter.load(md_file)
 
@@ -44,9 +44,21 @@ class ContentLoader:
                 # Parse date
                 date = self._parse_date(date_str, md_file)
 
+                # Detect category from folder structure
+                relative_path = md_file.relative_to(posts_dir)
+                category = None
+                if len(relative_path.parts) > 1:
+                    # File is in a subfolder, use the folder name as category
+                    category = relative_path.parts[0]
+
                 # Generate slug and URL
                 slug = post_data.metadata.get("slug", self._slugify(title))
-                url = f"/posts/{slug}.html"
+
+                # Create URL structure
+                if category:
+                    url = f"/{category}/{slug}/"
+                else:
+                    url = f"/{slug}/"
 
                 # Convert markdown to HTML
                 content = markdown.markdown(
@@ -61,6 +73,7 @@ class ContentLoader:
                     url=url,
                     file_path=str(md_file),
                     slug=slug,
+                    category=category,
                     author=post_data.metadata.get("author"),
                     description=post_data.metadata.get("description"),
                     image=post_data.metadata.get("image"),
@@ -95,7 +108,7 @@ class ContentLoader:
                 # Extract metadata
                 title = page_data.metadata.get("title", md_file.stem)
                 slug = page_data.metadata.get("slug", self._slugify(title))
-                url = f"/pages/{slug}.html"
+                url = f"/{slug}/"
 
                 # Convert markdown to HTML
                 content = markdown.markdown(
