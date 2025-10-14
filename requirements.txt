@@ -1,3 +1,4 @@
+# Core dependencies
 markdown>=3.4.0
 jinja2>=3.1.0
 pyyaml>=6.0
@@ -6,3 +7,8 @@ python-frontmatter>=1.0.0
 feedgen>=0.9.0
 pillow>=9.0.0
 watchdog>=3.0.0
+
+# Development dependencies
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pre-commit>=3.0.0

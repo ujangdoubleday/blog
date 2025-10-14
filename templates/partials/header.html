@@ -8,12 +8,12 @@
                 <a href="/">{{ config.site.title }}</a>
             </h1>
         </div>
-        
+
         <nav class="site-navigation">
             {% for nav_item in config.navigation %}
             <a href="{{ nav_item.url }}" class="nav-link">{{ nav_item.name }}</a>
             {% endfor %}
-            
+
             <!-- Theme Toggle -->
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
                 <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -24,7 +24,7 @@
                 </svg>
             </button>
         </nav>
-        
+
         <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
             <span></span>
             <span></span>

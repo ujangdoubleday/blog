@@ -1,7 +1,7 @@
 ---
-title: "About This Blog"
-slug: "about"
-description: "Learn more about this blog and the technology behind it"
+title: 'About This Blog'
+slug: 'about'
+description: 'Learn more about this blog and the technology behind it'
 ---
 
 # About This Blog
@@ -13,18 +13,21 @@ Welcome to my personal blog! This site is built using a custom static site gener
 This blog covers a variety of topics that I'm passionate about:
 
 ### Programming & Development
+
 - Python tutorials and best practices
 - Web development techniques
 - Code optimization tips
 - Open source project discussions
 
 ### Technology
+
 - Reviews of development tools
 - Emerging technology trends
 - Software architecture insights
 - DevOps and deployment strategies
 
 ### Personal Projects
+
 - Documentation of side projects
 - Learning experiences and challenges
 - Code walkthroughs and explanations

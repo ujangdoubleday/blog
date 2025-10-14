@@ -26,7 +26,7 @@ install.bat
 
 The script will automatically:
 - Create virtual environment
-- Activate virtual environment  
+- Activate virtual environment
 - Install all dependencies
 
 ### Manual Installation (Alternative)

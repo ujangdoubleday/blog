@@ -21,13 +21,13 @@
         <p class="page-description">{{ page.description }}</p>
         {% endif %}
     </header>
-    
+
     {% if page.image %}
     <div class="page-image">
         <img src="{{ page.image }}" alt="{{ page.title }}">
     </div>
     {% endif %}
-    
+
     <div class="page-content">
         {{ page.content|safe }}
     </div>

@@ -9,10 +9,10 @@ from .rss import RSSGenerator
 from .search import SearchIndexer
 
 __all__ = [
-    'Post',
-    'Page', 
-    'BlogGenerator',
-    'AssetProcessor',
-    'RSSGenerator',
-    'SearchIndexer'
+    "Post",
+    "Page",
+    "BlogGenerator",
+    "AssetProcessor",
+    "RSSGenerator",
+    "SearchIndexer",
 ]
