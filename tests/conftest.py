@@ -38,8 +38,8 @@ def sample_config() -> Dict[str, Any]:
         "build": {
             "input_dir": "content",
             "output_dir": "output",
-            "template_dir": "templates",
-            "static_dir": "static",
+            "template_dir": "content/templates",
+            "static_dir": "content/static",
             "posts_per_page": 10,
             "minify_html": True,
         },
