@@ -1,0 +1,28 @@
+repos:
+  - repo: git+ssh://git@github.com/psf/black.git
+    rev: 23.7.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: git+ssh://git@github.com/pycqa/flake8.git
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+
+  - repo: git+ssh://git@github.com/pre-commit/pre-commit-hooks.git
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: run-tests
+        name: Run Python Tests (Pre-push)
+        entry: pytest
+        language: system
+        stages: [pre-push]
+        always_run: true
+        pass_filenames: false
