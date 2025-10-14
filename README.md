@@ -1,208 +1,261 @@
-# Python Static Blog Generator
+# Blog
 
 A simple, fast, and flexible static site generator built with Python. Convert Markdown posts to a beautiful blog with templating, asset processing, and modern web features.
 
-## Features
+## Installation
 
-- **Markdown Support**: Write posts in Markdown with YAML frontmatter
-- **Jinja2 Templates**: Flexible templating system with inheritance
-- **SCSS Processing**: Modern CSS with variables and mixins
-- **Asset Optimization**: Automatic image compression and minification
-- **RSS Feed**: Automatic RSS feed generation
-- **Search**: Client-side search functionality
-- **Responsive**: Mobile-first responsive design
-- **Fast Builds**: Optimized Python-based generation
-- **SEO Friendly**: Proper meta tags and semantic HTML
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/ujangdoubleday/blog.git
+cd blog
+```
+
+### 2. Run Installation Script
+
+**Linux/Mac:**
+```bash
+chmod +x install.sh    # Make script executable
+./install.sh
+```
+
+**Windows:**
+```cmd
+install.bat
+```
+
+The script will automatically:
+- Create virtual environment
+- Activate virtual environment  
+- Install all dependencies
+
+### Manual Installation (Alternative)
+
+<details>
+<summary>Click to expand manual steps</summary>
+
+**Setup Virtual Environment:**
+
+Create virtual environment:
+```bash
+python -m venv venv
+```
+
+Activate virtual environment (Linux/Mac):
+```bash
+source venv/bin/activate
+```
+
+Activate virtual environment (Windows):
+```cmd
+venv\Scripts\activate
+```
+
+**Install Dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+</details>
 
 ## Quick Start
 
-1. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 1. Configure Site
 
-2. **Configure Your Site**
-   Edit `config/config.yaml` to customize your blog settings.
+Edit `config/config.yaml`:
 
-3. **Write Content**
-   - Add blog posts to `content/posts/` in Markdown format
-   - Add static pages to `content/pages/`
+```yaml
+site:
+  title: "My Blog"
+  author: "Your Name"
+  email: "your@email.com"
+  url: "https://yourdomain.com"
+```
 
-4. **Build Your Site**
-   ```bash
-   python scripts/build.py
-   ```
+### 2. Create First Post
 
-5. **Serve Locally** (optional)
-   ```bash
-   python scripts/build.py --serve
-   ```
+Create file `content/posts/hello-world.md`:
 
-## Project Structure
+```markdown
+---
+title: "Hello World"
+date: "2024-10-14"
+author: "Your Name"
+published: true
+---
+
+# Hello World!
+
+My first blog post.
+```
+
+### 3. Build & Run
+
+Make script executable:
+```bash
+chmod +x build.sh
+```
+
+Build site:
+```bash
+./build.sh
+```
+
+Build and serve locally:
+```bash
+./build.sh --serve
+```
+
+Open `http://localhost:8000` in your browser.
+
+## Commands
+
+### Build Scripts (Recommended)
+
+**Linux/Mac:**
+
+Make script executable (first time only):
+```bash
+chmod +x build.sh
+```
+
+Basic build:
+```bash
+./build.sh
+```
+
+Build and serve locally:
+```bash
+./build.sh --serve
+```
+
+Custom port:
+```bash
+./build.sh --serve --port 3000
+```
+
+Build without cleaning:
+```bash
+./build.sh --no-clean
+```
+
+**Windows:**
+
+Basic build:
+```cmd
+build.bat
+```
+
+Build and serve locally:
+```cmd
+build.bat --serve
+```
+
+Custom port:
+```cmd
+build.bat --serve --port 3000
+```
+
+Build without cleaning:
+```cmd
+build.bat --no-clean
+```
+
+### Manual Commands (Alternative)
+
+First activate virtual environment:
+
+Linux/Mac:
+```bash
+source venv/bin/activate
+```
+
+Windows:
+```cmd
+venv\Scripts\activate
+```
+
+Then run build commands:
+
+Basic build:
+```bash
+python scripts/build.py
+```
+
+Build and serve locally:
+```bash
+python scripts/build.py --serve
+```
+
+Custom port:
+```bash
+python scripts/build.py --serve --port 3000
+```
+
+Build without cleaning:
+```bash
+python scripts/build.py --no-clean
+```
+
+## Structure
 
 ```
 blog/
 ├── content/
-│   ├── posts/              # Blog posts in Markdown
-│   │   ├── hello-world.md
-│   │   └── second-post.md
-│   └── pages/              # Static pages
-│       └── about.md
-├── templates/              # Jinja2 templates
-│   ├── base.html          # Base template
-│   ├── post.html          # Individual post template
-│   ├── page.html          # Static page template
-│   ├── index.html         # Homepage template
-│   ├── partials/          # Template partials
-│   │   ├── header.html
-│   │   └── footer.html
-│   └── static/            # Template-specific static files
-│       ├── logo.svg
-│       └── placeholder.jpg
-├── static/                # Source assets
-│   ├── images/
-│   ├── scss/
-│   │   └── main.scss      # Main stylesheet
-│   └── js/
-│       └── main.js        # JavaScript functionality
-├── output/                # Generated site (deployable)
-│   ├── assets/
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── images/
-│   ├── posts/
-│   ├── pages/
-│   ├── index.html
-│   ├── rss.xml
-│   └── search.json
+│   ├── posts/          # Blog posts (.md)
+│   └── pages/          # Static pages (.md)
+├── templates/          # Jinja2 templates
+├── static/
+│   ├── scss/          # Styling (SCSS)
+│   ├── js/            # JavaScript
+│   └── images/        # Images
 ├── config/
-│   └── config.yaml        # Site configuration
-├── scripts/
-│   └── build.py          # Main build script
-└── requirements.txt       # Python dependencies
+│   └── config.yaml    # Site config
+├── scripts/           # Build scripts
+└── output/            # Generated site
 ```
 
-## Writing Content
+## Writing
 
 ### Blog Posts
 
-Create Markdown files in `content/posts/` with YAML frontmatter:
+File: `content/posts/my-post.md`
 
 ```markdown
 ---
-title: "My Blog Post"
+title: "Post Title"
 date: "2024-10-14"
-author: "Your Name"
-description: "A short description of the post"
-tags: ["python", "blog", "tutorial"]
-image: "/_sync/images/post-image.jpg"
+author: "Author Name"
+description: "Short description"
+tags: ["python", "blog"]
 published: true
 ---
 
-# Your Content Here
+# Post Content
 
-Write your blog post content in Markdown...
+Write your content in Markdown...
 ```
 
-### Static Pages
+### Pages
 
-Create Markdown files in `content/pages/`:
+File: `content/pages/about.md`
 
 ```markdown
 ---
 title: "About"
-description: "About this blog"
+slug: "about"
 ---
 
-# About This Blog
+# About
 
-Your page content here...
+About page content...
 ```
 
-## Configuration
+## Requirements
 
-Edit `config/config.yaml` to customize your site:
-
-```yaml
-site:
-  title: "Your Blog Title"
-  description: "Your blog description"
-  author: "Your Name"
-  email: "your@email.com"
-  url: "https://yourdomain.com"
-
-build:
-  posts_per_page: 10
-  date_format: "%Y-%m-%d"
-
-rss:
-  enabled: true
-  max_items: 20
-
-assets:
-  minify_css: false
-  minify_js: false
-  optimize_images: true
-  image_quality: 85
-```
-
-## Build Commands
-
-- **Basic build**: `python scripts/build.py`
-- **Build and serve**: `python scripts/build.py --serve`
-- **Custom port**: `python scripts/build.py --serve --port 3000`
-- **No clean build**: `python scripts/build.py --no-clean`
-- **Custom config**: `python scripts/build.py --config path/to/config.yaml`
-
-## Customization
-
-### Templates
-
-Templates use Jinja2 syntax and support:
-- Template inheritance (`{% extends "base.html" %}`)
-- Includes (`{% include "partials/header.html" %}`)
-- Variables (`{{ post.title }}`)
-- Filters (`{{ content|markdown }}`)
-- Loops and conditionals
-
-### Styling
-
-- Edit `static/scss/main.scss` for styling
-- Uses modern SCSS features (variables, nesting, mixins)
-- Automatically compiled to CSS during build
-- Responsive design with mobile-first approach
-
-### JavaScript
-
-- Edit `static/js/main.js` for interactivity
-- Includes mobile menu, reading progress, and copy code functionality
-- Easy to extend with additional features
-
-## Deployment
-
-The generator creates a static site in the `output/` directory that can be deployed to:
-
-- **GitHub Pages**: Push to repository and enable Pages
-- **Netlify**: Connect repository for automatic deployments
-- **Vercel**: Similar to Netlify with excellent performance
-- **Traditional hosting**: Upload files via FTP/SFTP
-- **CDN**: Any static file hosting service
-
-## Dependencies
-
-- `markdown`: Markdown processing
-- `jinja2`: Template engine
-- `pyyaml`: YAML configuration parsing
-- `libsass`: SCSS compilation
-- `python-frontmatter`: Frontmatter parsing
-- `feedgen`: RSS feed generation
-- `pillow`: Image processing
-- `watchdog`: File system monitoring
+- Python 3.8+
+- Virtual environment (recommended)
 
 ## License
 
 This project is open source and available under the [MIT License](LICENSE.md).
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
