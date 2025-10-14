@@ -48,8 +48,8 @@ class TestBlogGenerator:
         (posts_dir / "test-post.md").write_text(sample_post_content)
         (pages_dir / "test-page.md").write_text(sample_page_content)
 
-        # Create templates directory (minimal)
-        templates_dir = temp_dir / "templates"
+        # Create templates directory (minimal) inside content
+        templates_dir = content_dir / "templates"
         templates_dir.mkdir()
         (templates_dir / "base.html").write_text("<html>{{ content }}</html>")
         (templates_dir / "post.html").write_text(
@@ -62,8 +62,8 @@ class TestBlogGenerator:
             "{% extends 'base.html' %}{% block content %}Index{% endblock %}"
         )
 
-        # Create static directory
-        static_dir = temp_dir / "static"
+        # Create static directory inside content
+        static_dir = content_dir / "static"
         static_dir.mkdir()
 
         # Update config paths

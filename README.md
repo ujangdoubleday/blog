@@ -201,18 +201,29 @@ python scripts/build.py --no-clean
 
 ```
 blog/
-├── content/
-│   ├── posts/          # Blog posts (.md)
-│   └── pages/          # Static pages (.md)
-├── templates/          # Jinja2 templates
-├── static/
-│   ├── scss/          # Styling (SCSS)
-│   ├── js/            # JavaScript
-│   └── images/        # Images
-├── config/
-│   └── config.yaml    # Site config
+├── content/           # All content and assets
+│   ├── posts/         # Blog posts (.md)
+│   ├── pages/         # Static pages (.md)
+│   ├── templates/     # Jinja2 templates
+│   │   ├── base.html
+│   │   ├── index.html
+│   │   ├── post.html
+│   │   ├── page.html
+│   │   └── partials/
+│   └── static/        # Static assets
+│       ├── scss/      # Styling (SCSS)
+│       ├── js/        # JavaScript
+│       └── images/    # Images
+├── core/              # Core application modules
+│   ├── blog/          # Blog engine (generator, assets, etc.)
+│   ├── dev/           # Development server
+│   └── utils/         # Utilities (content loader, template renderer)
 ├── scripts/           # Build scripts
-└── output/            # Generated site
+│   └── build.py       # Main build script
+├── tests/             # Test suite
+├── config/
+│   └── config.yaml    # Site configuration
+└── output/            # Generated static site
 ```
 
 ## Writing
@@ -250,6 +261,58 @@ slug: "about"
 
 About page content...
 ```
+
+## Development
+
+### Running Tests
+
+This project uses **pytest** for testing with comprehensive test coverage.
+
+Run tests:
+```bash
+# Basic test run
+pytest
+
+# Verbose output
+pytest -v
+
+# With coverage report
+pytest --cov=core --cov-report=term-missing
+
+# Run specific test file
+pytest tests/test_content.py
+
+# Run specific test
+pytest tests/test_content.py::TestPost::test_post_creation
+```
+
+Test structure:
+- **`tests/`** - Test directory
+- **`tests/conftest.py`** - Pytest fixtures and configuration
+- **`pytest.ini`** - Pytest configuration file
+- **Coverage: 71%** - Current test coverage
+
+### 🔧 Pre-commit Hooks
+
+This project uses **pre-commit** to ensure code quality and consistency.
+
+Run pre-commit manually:
+```bash
+# Run on all files
+pre-commit run --all-files
+
+# Run on staged files only
+pre-commit run
+```
+
+**Hooks included:**
+- **Black** - Python code formatting
+- **Flake8** - Python linting
+- **YAML check** - Validates YAML files
+- **End-of-file fixer** - Ensures files end with newline
+- **Trailing whitespace** - Removes trailing whitespace
+- **Pytest** - Runs tests on push (optional)
+
 
 ## Requirements
 
