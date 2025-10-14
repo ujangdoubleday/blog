@@ -52,6 +52,9 @@ class BlogGenerator:
 
     def render_templates(self):
         """Render all templates"""
+        manifest = self.asset_processor.asset_manifest
+        self.template_renderer.set_asset_manifest(manifest)
+
         self.template_renderer.render_posts(self.posts)
         self.template_renderer.render_pages(self.pages)
         self.template_renderer.render_index(self.posts)
@@ -80,16 +83,9 @@ class BlogGenerator:
         if clean:
             self.clean_output()
 
-        # Load content
         self.load_content()
-
-        # Render templates
-        self.render_templates()
-
-        # Process assets
         self.process_assets()
-
-        # Generate additional files
+        self.render_templates()
         self.generate_feeds()
 
         print("Build complete!")

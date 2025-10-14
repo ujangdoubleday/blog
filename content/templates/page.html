@@ -24,7 +24,7 @@
 
     {% if page.image %}
     <div class="page-image">
-        <img src="{{ page.image }}" alt="{{ page.title }}">
+        <img src="{{ page.image | image }}" alt="{{ page.title }}">
     </div>
     {% endif %}
 

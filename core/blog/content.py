@@ -18,6 +18,7 @@ class Post:
     url: str
     file_path: str
     slug: str
+    category: Optional[str] = None
     author: Optional[str] = None
     description: Optional[str] = None
     excerpt: Optional[str] = None
