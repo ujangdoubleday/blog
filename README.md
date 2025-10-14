@@ -61,7 +61,6 @@ blog/
 │       └── placeholder.jpg
 ├── static/                # Source assets
 │   ├── images/
-│   │   └── uploads/       # Images for posts
 │   ├── scss/
 │   │   └── main.scss      # Main stylesheet
 │   └── js/

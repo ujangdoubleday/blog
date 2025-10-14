@@ -1,4 +1,9 @@
 // Blog JavaScript functionality
+// Set dark theme immediately before DOM loads to prevent flash
+if (!localStorage.getItem('theme')) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -144,11 +149,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Theme toggle (if theme toggle button exists)
+    // Theme toggle
     const themeToggle = document.querySelector('#theme-toggle');
     if (themeToggle) {
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        const sunIcon = themeToggle.querySelector('.sun-icon');
+        const moonIcon = themeToggle.querySelector('.moon-icon');
+        
+        // Set default theme to dark if no preference saved
+        const savedTheme = localStorage.getItem('theme');
+        const currentTheme = savedTheme || 'dark';
+        
+        // Force dark mode as default
         document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcons(currentTheme);
         
         themeToggle.addEventListener('click', function() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -156,7 +169,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
         });
+        
+        function updateThemeIcons(theme) {
+            if (theme === 'dark') {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        }
     }
 });
 
@@ -213,11 +237,16 @@ style.textContent = `
             top: 100%;
             left: 0;
             right: 0;
-            background: white;
+            background: var(--background);
             flex-direction: column;
             padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
         .mobile-menu-toggle.active span:nth-child(1) {
