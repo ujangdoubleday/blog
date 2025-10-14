@@ -45,12 +45,13 @@ class AssetProcessor:
                 # Minify CSS if configured
                 if self.config.get('assets', {}).get('minify_css', False):
                     css_content = self._minify_css(css_content)
+                    print("Compiled and minified SCSS to CSS")
+                else:
+                    print("Compiled SCSS to CSS")
                 
                 css_output = output_assets / 'css' / 'main.css'
                 with open(css_output, 'w', encoding='utf-8') as f:
                     f.write(css_content)
-                
-                print("Compiled SCSS to CSS")
             except Exception as e:
                 print(f"Error compiling SCSS: {e}")
     
@@ -63,12 +64,13 @@ class AssetProcessor:
             # Minify JS if configured
             if self.config.get('assets', {}).get('minify_js', False):
                 js_content = self._minify_js(js_content)
+                print("Copied and minified JavaScript")
+            else:
+                print("Copied JavaScript")
             
             js_output = output_assets / 'js' / 'main.js'
             with open(js_output, 'w', encoding='utf-8') as f:
                 f.write(js_content)
-            
-            print("Copied JavaScript")
     
     def _process_images(self, static_dir: Path, output_assets: Path):
         """Copy and optimize images"""
@@ -127,11 +129,19 @@ class AssetProcessor:
         return css_content.strip()
     
     def _minify_js(self, js_content: str) -> str:
-        """Basic JavaScript minification"""
-        # Remove single-line comments
-        js_content = re.sub(r'//.*$', '', js_content, flags=re.MULTILINE)
+        """Enhanced JavaScript minification"""
+        # Remove single-line comments (but keep URLs)
+        js_content = re.sub(r'(?<!http:)(?<!https:)//.*$', '', js_content, flags=re.MULTILINE)
         # Remove multi-line comments
         js_content = re.sub(r'/\*.*?\*/', '', js_content, flags=re.DOTALL)
-        # Remove extra whitespace (basic)
+        # Remove unnecessary whitespace
+        js_content = re.sub(r'\s*([{}();,:])\s*', r'\1', js_content)
+        js_content = re.sub(r'\s*=\s*', '=', js_content)
+        js_content = re.sub(r'\s*\+\s*', '+', js_content)
+        js_content = re.sub(r'\s*-\s*', '-', js_content)
+        js_content = re.sub(r'\s*\*\s*', '*', js_content)
+        js_content = re.sub(r'\s*/\s*', '/', js_content)
+        # Remove extra newlines and spaces
+        js_content = re.sub(r'\n+', '', js_content)
         js_content = re.sub(r'\s+', ' ', js_content)
         return js_content.strip()

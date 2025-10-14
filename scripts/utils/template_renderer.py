@@ -2,6 +2,7 @@
 Template rendering utilities
 """
 
+import re
 import datetime
 from pathlib import Path
 from typing import List, Dict, Any
@@ -32,6 +33,47 @@ class TemplateRenderer:
         
         return env
     
+    def _minify_html(self, html: str) -> str:
+        """Minify HTML content"""
+        if not self.config.get('assets', {}).get('minify_html', False):
+            return html
+        
+        # Remove HTML comments (but keep conditional comments)
+        html = re.sub(r'<!--(?!\[if).*?-->', '', html, flags=re.DOTALL)
+        
+        # Remove extra whitespace between tags
+        html = re.sub(r'>\s+<', '><', html)
+        
+        # Remove leading and trailing whitespace
+        html = re.sub(r'^\s+|\s+$', '', html, flags=re.MULTILINE)
+        
+        # Replace multiple spaces with single space
+        html = re.sub(r' {2,}', ' ', html)
+        
+        # Remove newlines and tabs (but preserve content in pre, script, style tags)
+        # First, protect content in pre, script, style tags
+        protected_content = {}
+        counter = 0
+        
+        for tag in ['pre', 'script', 'style']:
+            pattern = f'<{tag}[^>]*?>.*?</{tag}>'
+            matches = re.finditer(pattern, html, re.DOTALL | re.IGNORECASE)
+            for match in matches:
+                placeholder = f'__PROTECTED_CONTENT_{counter}__'
+                protected_content[placeholder] = match.group(0)
+                html = html.replace(match.group(0), placeholder)
+                counter += 1
+        
+        # Now minify the rest
+        html = re.sub(r'\n+', '', html)
+        html = re.sub(r'\t+', '', html)
+        
+        # Restore protected content
+        for placeholder, content in protected_content.items():
+            html = html.replace(placeholder, content)
+        
+        return html.strip()
+    
     def render_posts(self, posts: List[Post]):
         """Render individual post pages"""
         template = self.jinja_env.get_template('post.html')
@@ -51,11 +93,15 @@ class TemplateRenderer:
                 current_year=datetime.datetime.now().year
             )
             
+            # Minify HTML if enabled
+            html = self._minify_html(html)
+            
             output_file = output_dir / f"{post.slug}.html"
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(html)
         
-        print(f"Rendered {len(posts)} posts")
+        minify_status = " (minified)" if self.config.get('assets', {}).get('minify_html', False) else ""
+        print(f"Rendered {len(posts)} posts{minify_status}")
     
     def render_pages(self, pages: List[Page]):
         """Render static pages"""
@@ -70,11 +116,15 @@ class TemplateRenderer:
                 current_year=datetime.datetime.now().year
             )
             
+            # Minify HTML if enabled
+            html = self._minify_html(html)
+            
             output_file = output_dir / f"{page.slug}.html"
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(html)
         
-        print(f"Rendered {len(pages)} pages")
+        minify_status = " (minified)" if self.config.get('assets', {}).get('minify_html', False) else ""
+        print(f"Rendered {len(pages)} pages{minify_status}")
     
     def render_index(self, posts: List[Post]):
         """Render index page with paginated posts"""
@@ -112,6 +162,9 @@ class TemplateRenderer:
                 current_year=datetime.datetime.now().year
             )
             
+            # Minify HTML if enabled
+            html = self._minify_html(html)
+            
             if page_num == 1:
                 # First page is index.html
                 output_file = output_dir / 'index.html'
@@ -124,4 +177,5 @@ class TemplateRenderer:
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(html)
         
-        print(f"Rendered index with {total_pages} page(s)")
+        minify_status = " (minified)" if self.config.get('assets', {}).get('minify_html', False) else ""
+        print(f"Rendered index with {total_pages} page(s){minify_status}")

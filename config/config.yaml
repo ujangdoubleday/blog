@@ -47,7 +47,8 @@ dev:
 
 # Asset processing
 assets:
-  minify_css: false
-  minify_js: false
+  minify_css: true
+  minify_js: true
+  minify_html: true
   optimize_images: true
   image_quality: 85
