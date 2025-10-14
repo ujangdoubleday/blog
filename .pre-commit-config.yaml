@@ -22,7 +22,7 @@ repos:
       - id: run-tests
         name: Run Python Tests (Pre-push)
         entry: pytest
-        language: system
-        stages: [pre-push]
+        language: python
+        stages: [push]
         always_run: true
         pass_filenames: false
