@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="{{ config.site.language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ config.site.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ config.site.description }}{% endblock %}">
+    <meta name="author" content="{{ config.site.author }}">
+    
+    {% block meta %}{% endblock %}
+    
+    <link rel="stylesheet" href="/_sync/css/main.css">
+    {% if config.rss.enabled %}
+    <link rel="alternate" type="application/rss+xml" title="{{ config.rss.title }}" href="/rss.xml">
+    {% endif %}
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    
+    {% include 'partials/footer.html' %}
+    
+    <script src="/_sync/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
