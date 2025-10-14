@@ -41,17 +41,17 @@
         </div>
         {% endif %}
     </header>
-    
+
     {% if post.image %}
     <div class="post-image">
         <img src="{{ post.image }}" alt="{{ post.title }}">
     </div>
     {% endif %}
-    
+
     <div class="post-content">
         {{ post.content|safe }}
     </div>
-    
+
     <footer class="post-footer">
         {% if post.tags %}
         <div class="post-tags">
@@ -61,7 +61,7 @@
             {% endfor %}
         </div>
         {% endif %}
-        
+
         <div class="post-navigation">
             {% if prev_post %}
             <a href="{{ prev_post.url }}" class="prev-post">

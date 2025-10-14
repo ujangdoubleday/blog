@@ -7,32 +7,32 @@
     <title>{% block title %}{{ config.site.title }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ config.site.description }}{% endblock %}">
     <meta name="author" content="{{ config.site.author }}">
-    
+
     {% block meta %}{% endblock %}
-    
+
     <!-- Prevent flash of unstyled content by setting theme immediately -->
     <script>
         // Set dark theme as default before CSS loads
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
-    
+
     <link rel="stylesheet" href="/_sync/css/main.css">
     {% if config.rss.enabled %}
     <link rel="alternate" type="application/rss+xml" title="{{ config.rss.title }}" href="/rss.xml">
     {% endif %}
-    
+
     {% block head %}{% endblock %}
 </head>
 <body>
     {% include 'partials/header.html' %}
-    
+
     <main class="main-content">
         {% block content %}{% endblock %}
     </main>
-    
+
     {% include 'partials/footer.html' %}
-    
+
     <script src="/_sync/js/main.js"></script>
     {% block scripts %}{% endblock %}
 </body>

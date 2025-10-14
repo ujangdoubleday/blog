@@ -5,7 +5,7 @@
                 <h3>{{ config.site.title }}</h3>
                 <p>{{ config.site.description }}</p>
             </div>
-            
+
             {% if config.social %}
             <div class="footer-section">
                 <h3>Connect</h3>
@@ -17,7 +17,7 @@
                         </svg>
                     </a>
                     {% endif %}
-                    
+
                     {% if config.social.twitter %}
                     <a href="{{ config.social.twitter }}" target="_blank" rel="noopener" aria-label="Twitter">
                         <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -25,7 +25,7 @@
                         </svg>
                     </a>
                     {% endif %}
-                    
+
                     {% if config.social.linkedin %}
                     <a href="{{ config.social.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn">
                         <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -33,7 +33,7 @@
                         </svg>
                     </a>
                     {% endif %}
-                    
+
                     {% if config.social.email %}
                     <a href="mailto:{{ config.social.email }}" aria-label="Email">
                         <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             {% endif %}
-            
+
             <div class="footer-section">
                 <h3>Information</h3>
                 <ul>
@@ -57,7 +57,7 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
             <p>&copy; {{ current_year }} {{ config.site.author }}. Built with Python & Jinja2.</p>
         </div>

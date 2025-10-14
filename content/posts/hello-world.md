@@ -1,10 +1,10 @@
 ---
-title: "Hello World - Welcome to My Blog"
-date: "2024-10-14"
-author: "Blog Author"
-description: "My first blog post introducing this new Python-based static site generator"
-tags: ["python", "blog", "static-site", "markdown"]
-image: "/_sync/images/hello-world.jpeg"
+title: 'Hello World - Welcome to My Blog'
+date: '2024-10-14'
+author: 'Blog Author'
+description: 'My first blog post introducing this new Python-based static site generator'
+tags: ['python', 'blog', 'static-site', 'markdown']
+image: '/_sync/images/hello-world.jpeg'
 published: true
 ---
 
@@ -75,4 +75,4 @@ Thanks for reading, and I hope you find this blog useful! Feel free to reach out
 
 ---
 
-*This post was written in Markdown and generated using Python. The source code for this blog generator is available for those interested in building their own static site generator.*
+_This post was written in Markdown and generated using Python. The source code for this blog generator is available for those interested in building their own static site generator._
