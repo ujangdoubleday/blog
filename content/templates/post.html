@@ -80,7 +80,7 @@
 
     {% if post.image %}
     <div class="post-image">
-        <img src="{{ post.image | image }}" alt="{{ post.title }}">
+        {{ post.image | img_tag(post.title) | safe }}
     </div>
     {% endif %}
 
