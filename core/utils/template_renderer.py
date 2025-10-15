@@ -11,6 +11,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 import markdown
 
 from core.blog.content import Post, Page
+from core.blog.metadata import MetadataGenerator
 
 
 class TemplateRenderer:
@@ -19,6 +20,7 @@ class TemplateRenderer:
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.asset_manifest = {}
+        self.metadata_generator = MetadataGenerator(config)
         self.jinja_env = self._setup_jinja()
 
     def _setup_jinja(self) -> Environment:
@@ -175,6 +177,7 @@ class TemplateRenderer:
                 prev_post=prev_post,
                 next_post=next_post,
                 current_year=datetime.datetime.now().year,
+                metadata=self.metadata_generator,
             )
 
             # Minify HTML if enabled
@@ -210,7 +213,10 @@ class TemplateRenderer:
         for page in pages:
             current_year = datetime.datetime.now().year
             html = template.render(
-                page=page, config=self.config, current_year=current_year
+                page=page,
+                config=self.config,
+                current_year=current_year,
+                metadata=self.metadata_generator,
             )
 
             # Minify HTML if enabled
@@ -270,6 +276,7 @@ class TemplateRenderer:
                 pagination=pagination if total_pages > 1 else None,
                 config=self.config,
                 current_year=datetime.datetime.now().year,
+                metadata=self.metadata_generator,
             )
 
             # Minify HTML if enabled

@@ -9,6 +9,7 @@ from .rss import RSSGenerator
 from .search import SearchIndexer
 from .sitemap import SitemapGenerator
 from .robots import RobotsGenerator
+from .metadata import MetadataGenerator
 
 __all__ = [
     "Post",
@@ -19,4 +20,5 @@ __all__ = [
     "SearchIndexer",
     "SitemapGenerator",
     "RobotsGenerator",
+    "MetadataGenerator",
 ]

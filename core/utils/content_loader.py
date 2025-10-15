@@ -66,6 +66,9 @@ class ContentLoader:
                     extensions=["codehilite", "toc", "tables", "fenced_code"],
                 )
 
+                # Convert H1 to H2 to avoid multiple H1 tags (SEO best practice)
+                content = self._convert_h1_to_h2(content)
+
                 post = Post(
                     title=title,
                     content=content,
@@ -116,6 +119,9 @@ class ContentLoader:
                     extensions=["codehilite", "toc", "tables", "fenced_code"],
                 )
 
+                # Convert H1 to H2 to avoid multiple H1 tags (SEO best practice)
+                content = self._convert_h1_to_h2(content)
+
                 page = Page(
                     title=title,
                     content=content,
@@ -157,3 +163,11 @@ class ContentLoader:
         text = re.sub(r"[^\w\s-]", "", text)
         text = re.sub(r"[-\s]+", "-", text)
         return text.strip("-")
+
+    def _convert_h1_to_h2(self, html_content: str) -> str:
+        """convert H1 tags to H2 to avoid multiple H1 tags on page"""
+        # replace opening h1 tags with h2
+        html_content = re.sub(r"<h1(\s[^>]*)?>", r"<h2\1>", html_content)
+        # replace closing h1 tags with h2
+        html_content = re.sub(r"</h1>", "</h2>", html_content)
+        return html_content
