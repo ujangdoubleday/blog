@@ -4,7 +4,7 @@ date: '2024-10-14'
 author: 'Blog Author'
 description: 'My first blog post introducing this new Python-based static site generator'
 tags: ['python', 'blog', 'static-site', 'markdown']
-image: 'hello-world.jpeg'
+image: 'hello.webp'
 published: true
 ---
 

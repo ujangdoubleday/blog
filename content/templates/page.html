@@ -51,7 +51,7 @@
 
     {% if page.image %}
     <div class="page-image">
-        <img src="{{ page.image | image }}" alt="{{ page.title }}">
+        {{ page.image | img_tag(page.title) | safe }}
     </div>
     {% endif %}
 
