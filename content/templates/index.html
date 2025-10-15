@@ -1,5 +1,27 @@
 {% extends "base.html" %}
 
+{% block meta %}
+<!-- Schema.org JSON-LD for Blog -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "{{ config.site.title }}",
+  "description": "{{ config.site.description }}",
+  "url": "{{ config.site.url }}/",
+  "author": {
+    "@type": "Person",
+    "name": "{{ config.site.author }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ config.site.title }}",
+    "url": "{{ config.site.url }}"
+  }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="home">
     <header class="home-header">
