@@ -7,6 +7,7 @@ from .generator import BlogGenerator
 from .assets import AssetProcessor
 from .rss import RSSGenerator
 from .search import SearchIndexer
+from .sitemap import SitemapGenerator
 
 __all__ = [
     "Post",
@@ -15,4 +16,5 @@ __all__ = [
     "AssetProcessor",
     "RSSGenerator",
     "SearchIndexer",
+    "SitemapGenerator",
 ]

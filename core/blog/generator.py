@@ -13,6 +13,7 @@ from .content import Post, Page
 from .assets import AssetProcessor
 from .rss import RSSGenerator
 from .search import SearchIndexer
+from .sitemap import SitemapGenerator
 from core.utils.content_loader import ContentLoader
 from core.utils.template_renderer import TemplateRenderer
 
@@ -31,6 +32,7 @@ class BlogGenerator:
         self.asset_processor = AssetProcessor(self.config)
         self.rss_generator = RSSGenerator(self.config)
         self.search_indexer = SearchIndexer(self.config)
+        self.sitemap_generator = SitemapGenerator(self.config)
 
     def _load_config(self, config_path: str) -> Dict[str, Any]:
         """Load configuration from YAML file"""
@@ -64,9 +66,10 @@ class BlogGenerator:
         self.asset_processor.process_all()
 
     def generate_feeds(self):
-        """Generate RSS feed and search index"""
+        """Generate RSS feed, search index, and sitemap"""
         self.rss_generator.generate(self.posts)
         self.search_indexer.generate(self.posts, self.pages)
+        self.sitemap_generator.generate(self.posts, self.pages)
 
     def clean_output(self):
         """Clean the output directory"""
