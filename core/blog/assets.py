@@ -39,6 +39,7 @@ class AssetProcessor:
         self._process_scss(static_dir, output_assets)
         self._process_javascript(static_dir, output_assets)
         self._process_images(static_dir, output_assets)
+        self._process_fonts(static_dir, output_assets)
         self._copy_template_assets(output_assets)
 
         # Save asset manifest
@@ -140,6 +141,23 @@ class AssetProcessor:
                         shutil.copy2(img_file, output_img)
 
             print("Processed images")
+
+    def _process_fonts(self, static_dir: Path, output_assets: Path):
+        """copy font files to output"""
+        fonts_dir = static_dir / "fonts"
+        if fonts_dir.exists():
+            output_fonts = output_assets / "fonts"
+            output_fonts.mkdir(parents=True, exist_ok=True)
+
+            # copy all font files recursively
+            for font_file in fonts_dir.rglob("*"):
+                if font_file.is_file():
+                    relative_path = font_file.relative_to(fonts_dir)
+                    output_file = output_fonts / relative_path
+                    output_file.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(font_file, output_file)
+
+            print("Processed fonts")
 
     def _copy_template_assets(self, output_assets: Path):
         """Copy template static files"""
