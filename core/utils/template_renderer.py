@@ -20,6 +20,7 @@ class TemplateRenderer:
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.asset_manifest = {}
+        self.image_dimensions = {}
         self.metadata_generator = MetadataGenerator(config)
         self.jinja_env = self._setup_jinja()
 
@@ -39,12 +40,23 @@ class TemplateRenderer:
         )
         env.filters["asset"] = self._asset_url
         env.filters["image"] = self._image_url
+        env.filters["img_tag"] = self._generate_img_tag
 
         return env
 
     def set_asset_manifest(self, manifest: Dict[str, str]):
-        """Set the asset manifest"""
+        """set asset manifest and load image dimensions"""
+        import json
+
         self.asset_manifest = manifest
+
+        # load image dimensions
+        dimensions_file = (
+            Path(self.config["build"]["output_dir"]) / "_sync" / "image-dimensions.json"
+        )
+        if dimensions_file.exists():
+            with open(dimensions_file, "r", encoding="utf-8") as f:
+                self.image_dimensions = json.load(f)
 
     def _asset_url(self, path: str) -> str:
         """Get the actual asset URL from manifest"""
@@ -78,6 +90,44 @@ class TemplateRenderer:
 
         # Fallback to original path
         return f"/_sync/{path}"
+
+    def _generate_img_tag(self, path: str, alt: str = "") -> str:
+        """generate complete img tag with SEO attributes"""
+        if not path:
+            return ""
+
+        # get image URL
+        img_url = self._image_url(path)
+
+        # prepare path for dimensions lookup
+        path = path.lstrip("/")
+        if path.startswith("_sync/"):
+            path = path[6:]
+        if not path.startswith("images/"):
+            path = f"images/{path}"
+
+        # get actual filename from manifest
+        if path in self.asset_manifest:
+            actual_path = self.asset_manifest[path]
+        else:
+            actual_path = path
+
+        # get dimensions
+        dimensions = self.image_dimensions.get(actual_path, {})
+        width = dimensions.get("width", 0)
+        height = dimensions.get("height", 0)
+
+        # build img tag
+        attrs = [f'src="{img_url}"', f'alt="{alt}"']
+
+        if width and height:
+            attrs.append(f'width="{width}"')
+            attrs.append(f'height="{height}"')
+
+        attrs.append('loading="lazy"')
+        attrs.append('decoding="async"')
+
+        return f'<img {" ".join(attrs)}>'
 
     def _minify_html(self, html: str) -> str:
         """Minify HTML content"""

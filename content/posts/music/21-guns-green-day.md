@@ -2,15 +2,15 @@
 title: '21 Guns - Green Day: Anthem of Surrender and Reflection'
 date: '2024-10-14'
 author: 'Music Reviewer'
-description: 'A deep dive into Green Day''s powerful ballad 21 Guns, exploring its themes of surrender, war, and personal struggle'
+description: "A deep dive into Green Day's powerful ballad 21 Guns, exploring its themes of surrender, war, and personal struggle"
 tags: ['green-day', 'rock', 'ballad', '21st-century-breakdown', 'music-review']
-image: '21-guns.jpg'
+image: 'guns.webp'
 published: true
 ---
 
 # 21 Guns - Green Day: Anthem of Surrender and Reflection
 
-"21 Guns" adalah salah satu lagu paling powerful dari album *21st Century Breakdown* (2009) milik Green Day. Lagu ini menjadi single kedua dari album tersebut dan berhasil mencapai posisi tinggi di berbagai chart internasional.
+"21 Guns" adalah salah satu lagu paling powerful dari album _21st Century Breakdown_ (2009) milik Green Day. Lagu ini menjadi single kedua dari album tersebut dan berhasil mencapai posisi tinggi di berbagai chart internasional.
 
 ## About the Song
 
@@ -19,10 +19,8 @@ Lagu ini ditulis oleh Billie Joe Armstrong, Mike Dirnt, dan Tré Cool. "21 Guns"
 ### Lyrics Analysis
 
 Chorus yang ikonik:
-> *"Do you know what's worth fighting for?*
-> *When it's not worth dying for?*
-> *Does it take your breath away*
-> *And you feel yourself suffocating?"*
+
+> _"Do you know what's worth fighting for?_ > _When it's not worth dying for?_ > _Does it take your breath away_ > _And you feel yourself suffocating?"_
 
 Lirik ini menggambarkan pertanyaan eksistensial yang mendalam - kapan seseorang harus berhenti berjuang dan menerima kekalahan?
 
@@ -34,6 +32,7 @@ Lirik ini menggambarkan pertanyaan eksistensial yang mendalam - kapan seseorang 
 - **Duration**: 5:21
 
 Lagu ini menampilkan:
+
 - Gitar akustik yang melodius
 - String section yang dramatis
 - Vokal Billie Joe Armstrong yang emosional
@@ -55,6 +54,7 @@ Judul lagu merujuk pada tradisi militer "21-gun salute" - sebuah kehormatan tert
 ## Personal Reflection
 
 Bagi banyak pendengar, "21 Guns" bukan hanya lagu tentang perang literal, tetapi juga tentang pertempuran internal yang kita hadapi sehari-hari:
+
 - Kapan harus berhenti berjuang untuk sesuatu yang tidak worth it?
 - Bagaimana mengenali momen untuk surrender dengan terhormat?
 - Pentingnya self-reflection dalam menghadapi konflik
@@ -65,4 +65,4 @@ Hampir 15 tahun setelah rilisnya, "21 Guns" tetap relevan dan powerful. Lagu ini
 
 ---
 
-*"21 Guns" remains one of Green Day's most emotionally resonant songs, proving that sometimes the most powerful statement is knowing when to lay down your arms.*
+_"21 Guns" remains one of Green Day's most emotionally resonant songs, proving that sometimes the most powerful statement is knowing when to lay down your arms._

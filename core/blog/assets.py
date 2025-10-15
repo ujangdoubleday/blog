@@ -19,8 +19,9 @@ class AssetProcessor:
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        self.asset_manifest = {}  # Maps original names to hashed names
-        self.build_timestamp = str(int(time.time()))  # Unique build identifier
+        self.asset_manifest = {}  # maps original names to hashed names
+        self.image_dimensions = {}  # store image width/height for SEO
+        self.build_timestamp = str(int(time.time()))  # unique build identifier
 
     def process_all(self):
         """Process all static assets"""
@@ -104,7 +105,7 @@ class AssetProcessor:
             print(f"Generated JS: {hashed_name}")
 
     def _process_images(self, static_dir: Path, output_assets: Path):
-        """Copy and optimize images"""
+        """convert images to WebP with compression"""
         images_dir = static_dir / "images"
         if images_dir.exists():
             for img_file in images_dir.rglob("*"):
@@ -117,30 +118,54 @@ class AssetProcessor:
                     ".svg",
                 ]:
                     relative_path = img_file.relative_to(images_dir)
-
-                    # Read file content for hashing
-                    img_content = img_file.read_bytes()
-
-                    # Generate hashed filename
                     original_name = str(relative_path).replace("\\", "/")
-                    hashed_name = self._get_hashed_filename(original_name, img_content)
 
-                    # Update manifest
-                    self.asset_manifest[
-                        f"images/{original_name}"
-                    ] = f"images/{hashed_name}"
+                    # convert to WebP for better compression
+                    if img_file.suffix.lower() in [".jpg", ".jpeg", ".png"]:
+                        # change extension to .webp (keep same filename)
+                        webp_name = str(Path(original_name).with_suffix(".webp"))
 
-                    output_img = output_assets / "images" / hashed_name
-                    output_img.parent.mkdir(parents=True, exist_ok=True)
+                        # read and convert to webp (returns content, width, height)
+                        img_content, width, height = self._convert_to_webp(img_file)
 
-                    if self.config.get("assets", {}).get(
-                        "optimize_images", True
-                    ) and img_file.suffix.lower() in [".jpg", ".jpeg", ".png"]:
-                        self._optimize_image(img_file, output_img)
+                        # update manifest: original name → webp name (no hash)
+                        self.asset_manifest[
+                            f"images/{original_name}"
+                        ] = f"images/{webp_name}"
+
+                        # store dimensions for SEO
+                        self.image_dimensions[f"images/{webp_name}"] = {
+                            "width": width,
+                            "height": height,
+                        }
+
+                        output_img = output_assets / "images" / webp_name
+                        output_img.parent.mkdir(parents=True, exist_ok=True)
+
+                        # save webp content
+                        output_img.write_bytes(img_content)
                     else:
+                        # copy other formats as-is (svg, gif, existing webp)
+                        self.asset_manifest[
+                            f"images/{original_name}"
+                        ] = f"images/{original_name}"
+
+                        # try to get dimensions for non-svg images
+                        if img_file.suffix.lower() != ".svg":
+                            try:
+                                with Image.open(img_file) as img:
+                                    self.image_dimensions[f"images/{original_name}"] = {
+                                        "width": img.size[0],
+                                        "height": img.size[1],
+                                    }
+                            except Exception:
+                                pass
+
+                        output_img = output_assets / "images" / original_name
+                        output_img.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(img_file, output_img)
 
-            print("Processed images")
+            print("Processed images (converted to WebP)")
 
     def _process_fonts(self, static_dir: Path, output_assets: Path):
         """copy font files to output"""
@@ -172,21 +197,44 @@ class AssetProcessor:
 
             print("Copied template static files")
 
-    def _optimize_image(self, input_path: Path, output_path: Path):
-        """Optimize image for web"""
+    def _convert_to_webp(self, input_path: Path) -> tuple:
+        """convert image to WebP format and return (bytes, width, height)"""
         try:
             with Image.open(input_path) as img:
-                # Convert to RGB if necessary
-                if img.mode in ("RGBA", "LA", "P"):
+                width, height = img.size
+
+                # convert RGBA to RGB for JPG sources
+                if img.mode in ("RGBA", "LA"):
+                    # create white background
+                    background = Image.new("RGB", img.size, (255, 255, 255))
+                    background.paste(img, mask=img.split()[-1])
+                    img = background
+                elif img.mode == "P":
                     img = img.convert("RGB")
 
-                # Optimize and save
+                # save to WebP with high quality
+                from io import BytesIO
+
+                output = BytesIO()
                 assets_config = self.config.get("assets", {})
-                quality = assets_config.get("image_quality", 85)
-                img.save(output_path, optimize=True, quality=quality)
+                quality = assets_config.get("webp_quality", 85)
+
+                img.save(
+                    output,
+                    format="WEBP",
+                    quality=quality,
+                    method=6,  # best compression
+                )
+
+                return output.getvalue(), width, height
         except Exception as e:
-            print(f"Error optimizing image {input_path}: {e}")
-            shutil.copy2(input_path, output_path)
+            print(f"Error converting image {input_path} to WebP: {e}")
+            # fallback: return original file and try to get dimensions
+            try:
+                with Image.open(input_path) as img:
+                    return input_path.read_bytes(), img.size[0], img.size[1]
+            except Exception:
+                return input_path.read_bytes(), 0, 0
 
     def _minify_css(self, css_content: str) -> str:
         """Basic CSS minification"""
@@ -243,8 +291,14 @@ class AssetProcessor:
         return original_name
 
     def _save_asset_manifest(self, output_assets: Path):
-        """Save asset manifest to JSON file"""
+        """save asset manifest and image dimensions to JSON files"""
         manifest_file = output_assets / "manifest.json"
         with open(manifest_file, "w", encoding="utf-8") as f:
             json.dump(self.asset_manifest, f, indent=2)
-        print("Generated asset manifest")
+
+        # save image dimensions for SEO
+        dimensions_file = output_assets / "image-dimensions.json"
+        with open(dimensions_file, "w", encoding="utf-8") as f:
+            json.dump(self.image_dimensions, f, indent=2)
+
+        print("Generated asset manifest and image dimensions")
