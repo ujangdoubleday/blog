@@ -2,15 +2,42 @@
 
 {% block title %}{{ page.title }} - {{ config.site.title }}{% endblock %}
 {% block description %}{{ page.description or page.excerpt or config.site.description }}{% endblock %}
+{% block canonical %}{{ config.site.url }}{{ page.url }}{% endblock %}
+{% block twitter_title %}{{ page.title }}{% endblock %}
+{% block twitter_description %}{{ page.description or page.excerpt }}{% endblock %}
 
-{% block meta %}
+{% block og_meta %}
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ page.title }}">
 <meta property="og:description" content="{{ page.description or page.excerpt }}">
 <meta property="og:url" content="{{ config.site.url }}{{ page.url }}">
 {% if page.image %}
 <meta property="og:image" content="{{ config.site.url }}{{ page.image }}">
+<meta property="og:image:alt" content="{{ page.title }}">
+<meta name="twitter:image" content="{{ config.site.url }}{{ page.image }}">
 {% endif %}
+{% endblock %}
+
+{% block meta %}
+<!-- Schema.org JSON-LD for WebPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{{ page.title }}",
+  "description": "{{ page.description or page.excerpt }}",
+  "url": "{{ config.site.url }}{{ page.url }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ config.site.title }}",
+    "url": "{{ config.site.url }}"
+  }{% if page.image %},
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ config.site.url }}{{ page.image }}"
+  }{% endif %}
+}
+</script>
 {% endblock %}
 
 {% block content %}

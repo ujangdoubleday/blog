@@ -8,6 +8,7 @@ from .assets import AssetProcessor
 from .rss import RSSGenerator
 from .search import SearchIndexer
 from .sitemap import SitemapGenerator
+from .robots import RobotsGenerator
 
 __all__ = [
     "Post",
@@ -17,4 +18,5 @@ __all__ = [
     "RSSGenerator",
     "SearchIndexer",
     "SitemapGenerator",
+    "RobotsGenerator",
 ]
