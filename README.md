@@ -74,7 +74,29 @@ Deploy:
 ./deploy.sh --snapshots # view snapshots
 ```
 
-Each deployment automatically saves snapshots (current & previous) in `snapshots.json`.
+Each deployment automatically:
+
+- Converts CID to v1 (silent)
+- Deletes previous deployment from Pinata (saves storage)
+- Saves snapshots (current & previous) in `snapshots.json`
+
+### Cloudflare DNS (Optional)
+
+Update DNSLink automatically after deployment. Default: `false`
+
+Set in `.env`:
+
+```bash
+CLOUDFLARE=true
+CLOUDFLARE_EMAIL=your-email@example.com
+CLOUDFLARE_API_KEY=your-api-key
+CLOUDFLARE_ZONE_ID=your-zone-id
+CLOUDFLARE_HOSTNAME=your-hostname-id
+```
+
+When enabled, deployment will update Cloudflare DNSLink to point to the new IPFS CID.
+
+Full docs: https://developers.cloudflare.com/api/resources/web3/
 
 ## 📁 Structure
 
