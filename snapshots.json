@@ -1,0 +1,20 @@
+{
+  "current": {
+    "ipfs_hash": "QmfKAF8JLw7fvNiwhHpA9ANWt44NEmxTNoHKUi5skRNQmQ",
+    "pin_size": 3871914,
+    "timestamp": "2025-10-23T02:44:38.447Z",
+    "deployed_at": "2025-10-23T09:44:38.875547",
+    "gateway_url": "https://gateway.pinata.cloud/ipfs/QmfKAF8JLw7fvNiwhHpA9ANWt44NEmxTNoHKUi5skRNQmQ",
+    "ipfs_url": "https://ipfs.io/ipfs/QmfKAF8JLw7fvNiwhHpA9ANWt44NEmxTNoHKUi5skRNQmQ",
+    "name": "Blog Deployment"
+  },
+  "previous": {
+    "ipfs_hash": "QmQbBq2EHpne1RzyerP1PVZs8mmLwm7NoZXvt6AvU9FtUS",
+    "pin_size": 3871914,
+    "timestamp": "2025-10-23T02:42:26.885Z",
+    "deployed_at": "2025-10-23T09:43:26.293027",
+    "gateway_url": "https://gateway.pinata.cloud/ipfs/QmQbBq2EHpne1RzyerP1PVZs8mmLwm7NoZXvt6AvU9FtUS",
+    "ipfs_url": "https://ipfs.io/ipfs/QmQbBq2EHpne1RzyerP1PVZs8mmLwm7NoZXvt6AvU9FtUS",
+    "name": "Blog Deployment"
+  }
+}
