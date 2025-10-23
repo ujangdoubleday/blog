@@ -41,14 +41,17 @@ class SnapshotManager:
             snapshots = self._load_snapshots()
 
             # prepare new snapshot data
-            ipfs_hash = deployment_data.get("IpfsHash", "")
+            cid = deployment_data.get("IpfsHash", "")  # v1 CID
+            file_id = deployment_data.get("ID", "")  # Pinata file ID (UUID)
+
             new_snapshot = {
-                "ipfs_hash": ipfs_hash,
+                "CID": cid,
+                "ID": file_id,
                 "pin_size": deployment_data.get("PinSize", 0),
                 "timestamp": deployment_data.get("Timestamp", ""),
                 "deployed_at": datetime.now().isoformat(),
-                "gateway_url": f"https://gateway.pinata.cloud/ipfs/{ipfs_hash}",
-                "ipfs_url": f"https://ipfs.io/ipfs/{ipfs_hash}",
+                "gateway_url": f"https://{cid}.ipfs.dweb.link",
+                "ipfs_url": f"ipfs://{cid}",
                 "name": deployment_data.get("name", "Blog Deployment"),
             }
 
@@ -64,7 +67,7 @@ class SnapshotManager:
             with open(self.snapshot_file, "w", encoding="utf-8") as f:
                 json.dump(snapshots, f, indent=2, ensure_ascii=False)
 
-            print(f"✅ Saved snapshot to {self.snapshot_file}")
+            print("✅ Saved snapshot to snapshots.json")
             return True
 
         except Exception as e:
@@ -113,11 +116,17 @@ class SnapshotManager:
         current = self.get_current_snapshot()
         if current:
             print("\n🟢 CURRENT DEPLOYMENT:")
-            print(f"   IPFS Hash    : {current['ipfs_hash']}")
-            print(f"   Size         : {current['pin_size']:,} bytes")
-            print(f"   Deployed At  : {current['deployed_at']}")
-            print(f"   Gateway URL  : {current['gateway_url']}")
-            print(f"   IPFS URL     : {current['ipfs_url']}")
+            # support both old and new field names
+            cid = current.get("CID") or current.get("ipfs_hash", "")
+            file_id = current.get("ID") or current.get("file_id", "")
+
+            print(f"   CID         : {cid}")
+            if file_id:
+                print(f"   ID          : {file_id}")
+            print(f"   Size        : {current['pin_size']:,} bytes")
+            print(f"   Deployed At : {current['deployed_at']}")
+            print(f"   Gateway URL : {current['gateway_url']}")
+            print(f"   IPFS URL    : {current['ipfs_url']}")
         else:
             print("\n🟢 CURRENT DEPLOYMENT: None")
 
@@ -125,11 +134,17 @@ class SnapshotManager:
         previous = self.get_previous_snapshot()
         if previous:
             print("\n🔵 PREVIOUS DEPLOYMENT:")
-            print(f"   IPFS Hash    : {previous['ipfs_hash']}")
-            print(f"   Size         : {previous['pin_size']:,} bytes")
-            print(f"   Deployed At  : {previous['deployed_at']}")
-            print(f"   Gateway URL  : {previous['gateway_url']}")
-            print(f"   IPFS URL     : {previous['ipfs_url']}")
+            # support both old and new field names
+            cid = previous.get("CID") or previous.get("ipfs_hash", "")
+            file_id = previous.get("ID") or previous.get("file_id", "")
+
+            print(f"   CID         : {cid}")
+            if file_id:
+                print(f"   ID          : {file_id}")
+            print(f"   Size        : {previous['pin_size']:,} bytes")
+            print(f"   Deployed At : {previous['deployed_at']}")
+            print(f"   Gateway URL : {previous['gateway_url']}")
+            print(f"   IPFS URL    : {previous['ipfs_url']}")
         else:
             print("\n🔵 PREVIOUS DEPLOYMENT: None")
 
