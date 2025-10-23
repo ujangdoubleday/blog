@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Blog Generator Build Script
-# Usage: ./build.sh [options]
-# Options: --serve, --port 3000, --no-clean, etc.
+# Blog Deployment Script to IPFS via Pinata
+# Usage: ./deploy.sh [options]
 
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Detect Python command
@@ -37,24 +37,32 @@ if [ -z "$VIRTUAL_ENV" ]; then
     fi
 fi
 
-# Check if dependencies are installed
-if [ ! -f "venv/pyvenv.cfg" ] || [ ! -d "venv/lib" ]; then
-    echo -e "${YELLOW}Installing dependencies...${NC}"
-    venv/bin/pip install -r requirements.txt
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: Failed to install dependencies!${NC}"
-        exit 1
-    fi
+# Check if .env file exists
+if [ ! -f ".env" ]; then
+    echo -e "${RED}Error: .env file not found!${NC}"
+    echo -e "${YELLOW}Please create .env file with your Pinata credentials${NC}"
+    echo -e "${YELLOW}Copy from .env.example and fill in your API keys${NC}"
+    exit 1
 fi
 
-# Run the build script with all arguments passed
-echo -e "${GREEN}Running blog generator...${NC}"
-${PYTHON_CMD} scripts/build.py "$@"
+# Check if output directory exists
+if [ ! -d "output" ]; then
+    echo -e "${RED}Error: Output directory not found!${NC}"
+    echo -e "${YELLOW}Please build your blog first: ./build.sh${NC}"
+    exit 1
+fi
 
-# Check if build was successful
+# Run deployment script
+echo -e "${BLUE}🚀 Deploying to IPFS via Pinata...${NC}"
+echo ""
+${PYTHON_CMD} scripts/deploy.py "$@"
+
+# Check if deployment was successful
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✅ Build completed successfully!${NC}"
+    echo ""
+    echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
 else
-    echo -e "${RED}❌ Build failed!${NC}"
+    echo ""
+    echo -e "${RED}❌ Deployment failed!${NC}"
     exit 1
 fi

@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from core.deployment.pinata import PinataDeployer  # noqa: E402
+from core.deployment.snapshot import SnapshotManager  # noqa: E402
 
 
 def load_environment():
@@ -90,6 +91,16 @@ def deploy_to_ipfs(output_dir: str, name: str = None):
         print("\n🌐 Your blog is now available at:")
         print(f"   - https://gateway.pinata.cloud/ipfs/{result['IpfsHash']}")
         print(f"   - https://ipfs.io/ipfs/{result['IpfsHash']}")
+
+        # save snapshot
+        snapshot_manager = SnapshotManager()
+        if name:
+            result["name"] = name
+        snapshot_manager.save_snapshot(result)
+
+        # display snapshots
+        snapshot_manager.display_snapshots()
+
         return True
     else:
         print("❌ Deployment failed!")
@@ -139,6 +150,19 @@ def list_deployments():
     return True
 
 
+def show_snapshots():
+    """Display current and previous deployment snapshots."""
+    snapshot_manager = SnapshotManager()
+
+    if not snapshot_manager.has_snapshots():
+        print("📭 No deployment snapshots found.")
+        print("Deploy your blog first to create snapshots.")
+        return False
+
+    snapshot_manager.display_snapshots()
+    return True
+
+
 def main():
     """Main deployment script."""
     parser = argparse.ArgumentParser(description="Deploy blog to IPFS via Pinata")
@@ -152,11 +176,16 @@ def main():
     parser.add_argument(
         "--list", "-l", action="store_true", help="List recent deployments"
     )
+    parser.add_argument(
+        "--snapshots", "-s", action="store_true", help="Show deployment snapshots"
+    )
 
     args = parser.parse_args()
 
     if args.list:
         success = list_deployments()
+    elif args.snapshots:
+        success = show_snapshots()
     else:
         success = deploy_to_ipfs(args.output, args.name)
 
