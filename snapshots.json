@@ -1,22 +1,22 @@
 {
   "current": {
-    "CID": "bafybeidnh6mxvmaetvc367ekulfhtpp6npvfoji4dymdwrtutpee2d4byu",
-    "ID": "4ea3dad2-0629-489b-9174-a5bf5051abe5",
+    "CID": "bafybeihfnz452uqnroqrqlso2keqyv4zpbhwd22au3xjmlgpapqi5yuuj4",
+    "ID": "f6fe1fdf-bf85-4f0a-b071-f5af66bbbba6",
     "pin_size": 3871914,
-    "timestamp": "2025-10-23T04:16:01.697Z",
-    "deployed_at": "2025-10-23T11:16:03.465524",
-    "gateway_url": "https://bafybeidnh6mxvmaetvc367ekulfhtpp6npvfoji4dymdwrtutpee2d4byu.ipfs.dweb.link",
-    "ipfs_url": "ipfs://bafybeidnh6mxvmaetvc367ekulfhtpp6npvfoji4dymdwrtutpee2d4byu",
+    "timestamp": "2025-10-23T06:01:15.603Z",
+    "deployed_at": "2025-10-23T13:01:17.359399",
+    "gateway_url": "https://bafybeihfnz452uqnroqrqlso2keqyv4zpbhwd22au3xjmlgpapqi5yuuj4.ipfs.dweb.link",
+    "ipfs_url": "ipfs://bafybeihfnz452uqnroqrqlso2keqyv4zpbhwd22au3xjmlgpapqi5yuuj4",
     "name": "Blog Deployment"
   },
   "previous": {
-    "CID": "bafybeieqhdkdbqukrf4jcdl4746e36bibpa46y65cocs3tmef2urghjfeu",
-    "ID": "186f0f84-e93a-4ba1-b0d5-b540838c28e0",
+    "CID": "bafybeigwnowve23aqcyqks3rr6qr6k7vgxxeion4jtrcqj5nnccnxm4hla",
+    "ID": "5f997279-cb0d-4429-aede-22ff72c613e4",
     "pin_size": 3871914,
-    "timestamp": "2025-10-23T04:14:49.845Z",
-    "deployed_at": "2025-10-23T11:14:50.248525",
-    "gateway_url": "https://bafybeieqhdkdbqukrf4jcdl4746e36bibpa46y65cocs3tmef2urghjfeu.ipfs.dweb.link",
-    "ipfs_url": "ipfs://bafybeieqhdkdbqukrf4jcdl4746e36bibpa46y65cocs3tmef2urghjfeu",
+    "timestamp": "2025-10-23T05:53:33.603Z",
+    "deployed_at": "2025-10-23T12:53:34.002207",
+    "gateway_url": "https://bafybeigwnowve23aqcyqks3rr6qr6k7vgxxeion4jtrcqj5nnccnxm4hla.ipfs.dweb.link",
+    "ipfs_url": "ipfs://bafybeigwnowve23aqcyqks3rr6qr6k7vgxxeion4jtrcqj5nnccnxm4hla",
     "name": "Blog Deployment"
   }
 }
