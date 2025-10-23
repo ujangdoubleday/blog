@@ -8,6 +8,7 @@ import sys
 import argparse
 from pathlib import Path
 from dotenv import load_dotenv
+from cid import make_cid
 
 # add parent directory to path to import core modules
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -48,6 +49,26 @@ def get_pinata_credentials():
     return api_key, api_secret, jwt
 
 
+def convert_cid_to_v1(cid_v0: str) -> str:
+    """
+    Convert CIDv0 to CIDv1 with base32 encoding.
+
+    Args:
+        cid_v0: CIDv0 string (starts with Qm)
+
+    Returns:
+        CIDv1 string (starts with baf)
+    """
+    try:
+        cid = make_cid(cid_v0)
+        # convert to v1 and encode in base32
+        cid_v1 = cid.to_v1()
+        return cid_v1.encode("base32").decode("utf-8")
+    except Exception:
+        # silent fallback to v0
+        return cid_v0
+
+
 def deploy_to_ipfs(output_dir: str, name: str = None):
     """Deploy the blog output to IPFS via Pinata."""
     print("🚀 Starting deployment to IPFS...")
@@ -83,23 +104,32 @@ def deploy_to_ipfs(output_dir: str, name: str = None):
     result = deployer.upload_folder(str(output_path), name)
 
     if result:
-        print("\n🎉 Deployment successful!")
-        print("📋 Details:")
-        print(f"   - IPFS Hash: {result['IpfsHash']}")
-        print(f"   - Size: {result['PinSize']} bytes")
-        print(f"   - Timestamp: {result['Timestamp']}")
-        print("\n🌐 Your blog is now available at:")
-        print(f"   - https://gateway.pinata.cloud/ipfs/{result['IpfsHash']}")
-        print(f"   - https://ipfs.io/ipfs/{result['IpfsHash']}")
+        ipfs_hash_v0 = result["IpfsHash"]
 
-        # save snapshot
+        # convert CID to v1 (silent)
+        ipfs_hash_v1 = convert_cid_to_v1(ipfs_hash_v0)
+
+        # get previous snapshot BEFORE rotation
         snapshot_manager = SnapshotManager()
+        previous_snapshot = snapshot_manager.get_previous_snapshot()
+
+        # delete previous deployment from Pinata BEFORE rotation
+        # so we delete the old "previous" before it gets overwritten
+        if previous_snapshot:
+            previous_id = previous_snapshot.get("ID") or previous_snapshot.get(
+                "file_id"
+            )
+            if previous_id:
+                print(f"🗑️  Deleting old deployment (ID: {previous_id})...")
+                if deployer.delete_file_by_id(previous_id):
+                    print("✅ Old deployment deleted from Pinata")
+                # if deletion fails, warning is already printed by delete_file_by_id
+
+        # NOW save snapshot (which will rotate current -> previous)
+        result["IpfsHash"] = ipfs_hash_v1  # use v1 in snapshot
         if name:
             result["name"] = name
         snapshot_manager.save_snapshot(result)
-
-        # display snapshots
-        snapshot_manager.display_snapshots()
 
         return True
     else:

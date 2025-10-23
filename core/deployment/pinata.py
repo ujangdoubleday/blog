@@ -1,6 +1,7 @@
 """
 Pinata IPFS deployment module for uploading blog output to IPFS.
 """
+import requests
 from pathlib import Path
 from typing import Optional, Dict, Any
 from pinatapy import PinataPy
@@ -57,12 +58,6 @@ class PinataDeployer:
             )
 
             print("✅ Upload successful!")
-            print(f"📍 IPFS Hash: {result['IpfsHash']}")
-            print(
-                f"📁 IPFS Link: https://gateway.pinata.cloud/ipfs/{result['IpfsHash']}"
-            )
-            print(f"🔗 Public Link: https://ipfs.io/ipfs/{result['IpfsHash']}")
-
             return result
 
         except Exception as e:
@@ -84,4 +79,37 @@ class PinataDeployer:
             return True
         except Exception as e:
             print(f"Error unpinning file: {e}")
+            return False
+
+    def delete_file_by_id(self, file_id: str) -> bool:
+        """
+        Delete a file from Pinata using file ID (UUID) via API v3.
+
+        Args:
+            file_id: Pinata file ID (UUID)
+
+        Returns:
+            True if successful, False otherwise
+        """
+        if not self.jwt:
+            print("⚠️  JWT token required for file deletion")
+            return False
+
+        try:
+            # use Pinata API v3 to delete file by ID
+            url = f"https://api.pinata.cloud/v3/files/public/{file_id}"
+            headers = {"Authorization": f"Bearer {self.jwt}"}
+
+            response = requests.delete(url, headers=headers)
+
+            if response.status_code == 200:
+                return True
+            else:
+                print(
+                    f"⚠️  Could not delete file (status {response.status_code}): {response.text}"
+                )
+                return False
+
+        except Exception as e:
+            print(f"⚠️  Error deleting file: {e}")
             return False
