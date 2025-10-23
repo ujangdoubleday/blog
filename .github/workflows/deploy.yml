@@ -1,0 +1,100 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Create virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+
+      - name: Install dependencies
+        run: |
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run build script
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Create .env file
+        run: |
+          echo "PINATA_API_KEY=${{ secrets.PINATA_API_KEY }}" >> .env
+          echo "PINATA_SECRET_API_KEY=${{ secrets.PINATA_SECRET_API_KEY }}" >> .env
+          echo "PINATA_JWT=${{ secrets.PINATA_JWT }}" >> .env
+          echo "CLOUDFLARE=${{ secrets.CLOUDFLARE }}" >> .env
+          echo "CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}" >> .env
+          echo "CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}" >> .env
+          echo "CLOUDFLARE_ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }}" >> .env
+          echo "CLOUDFLARE_HOSTNAME=${{ secrets.CLOUDFLARE_HOSTNAME }}" >> .env
+
+      - name: Run deploy script
+        run: |
+          chmod +x deploy.sh
+          ./deploy.sh
+
+      - name: Check for snapshot changes
+        id: check_changes
+        run: |
+          if git diff --quiet snapshots.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request for snapshot update
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'update snapshot'
+          branch: snapshot-update-${{ github.run_number }}
+          title: 'Update snapshot'
+          body: |
+            Automated snapshot update from deployment
+
+            - Updated by GitHub Actions
+            - Run: ${{ github.run_number }}
+            - Commit: ${{ github.sha }}
+          labels: automated, snapshot
+          assignees: ${{ github.actor }}
+          delete-branch: true
+
+      - name: Enable auto-merge
+        if: steps.check_changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # wait for PR to be created
+          sleep 5
+
+          # get the PR number
+          PR_NUMBER=$(gh pr list --head snapshot-update-${{ github.run_number }} --json number --jq '.[0].number')
+
+          if [ ! -z "$PR_NUMBER" ]; then
+            # enable auto-merge with squash and custom commit message
+            gh pr merge $PR_NUMBER --squash --auto --delete-branch --subject "chore: update deployment snapshot (#${PR_NUMBER})"
+            echo "Auto-merge enabled for PR #$PR_NUMBER"
+          else
+            echo "No PR found to auto-merge"
+          fi
