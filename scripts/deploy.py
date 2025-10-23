@@ -27,21 +27,24 @@ def load_environment():
         print(f"✅ Loaded environment from {env_path}")
     else:
         print(f"⚠️  No .env file found at {env_path}")
-        print("Make sure to set API_KEY, API_SECRET, and JWT environment variables")
+        print(
+            "Make sure to set PINATA_API_KEY, PINATA_SECRET_API_KEY, "
+            "and PINATA_JWT environment variables"
+        )
 
 
 def get_pinata_credentials():
     """Get Pinata credentials from environment variables."""
-    api_key = os.getenv("API_KEY")
-    api_secret = os.getenv("API_SECRET")
-    jwt = os.getenv("JWT")  # Optional for SDK
+    api_key = os.getenv("PINATA_API_KEY")
+    api_secret = os.getenv("PINATA_SECRET_API_KEY")
+    jwt = os.getenv("PINATA_JWT")  # required for file deletion
 
     if not all([api_key, api_secret]):
         missing = []
         if not api_key:
-            missing.append("API_KEY")
+            missing.append("PINATA_API_KEY")
         if not api_secret:
-            missing.append("API_SECRET")
+            missing.append("PINATA_SECRET_API_KEY")
 
         print(f"❌ Missing required environment variables: {', '.join(missing)}")
         print("Please set these variables in your .env file")
