@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from core.deployment.pinata import PinataDeployer  # noqa: E402
 from core.deployment.snapshot import SnapshotManager  # noqa: E402
+from core.deployment.cloudflare import CloudflareManager  # noqa: E402
 
 
 def load_environment():
@@ -47,6 +48,34 @@ def get_pinata_credentials():
         return None, None, None
 
     return api_key, api_secret, jwt
+
+
+def get_cloudflare_config():
+    """
+    Get Cloudflare configuration from environment variables.
+
+    Returns:
+        Tuple of (enabled, email, api_key, zone_id, hostname)
+    """
+    enabled = os.getenv("CLOUDFLARE", "false").lower() == "true"
+
+    if not enabled:
+        return False, None, None, None, None
+
+    email = os.getenv("CLOUDFLARE_EMAIL")
+    api_key = os.getenv("CLOUDFLARE_API_KEY")
+    zone_id = os.getenv("CLOUDFLARE_ZONE_ID")
+    hostname = os.getenv("CLOUDFLARE_HOSTNAME")
+
+    if not all([email, api_key, zone_id, hostname]):
+        print("⚠️  Cloudflare is enabled but missing required credentials")
+        print(
+            "Required: CLOUDFLARE_EMAIL, CLOUDFLARE_API_KEY, "
+            "CLOUDFLARE_ZONE_ID, CLOUDFLARE_HOSTNAME"
+        )
+        return False, None, None, None, None
+
+    return True, email, api_key, zone_id, hostname
 
 
 def convert_cid_to_v1(cid_v0: str) -> str:
@@ -130,6 +159,34 @@ def deploy_to_ipfs(output_dir: str, name: str = None):
         if name:
             result["name"] = name
         snapshot_manager.save_snapshot(result)
+
+        # update Cloudflare DNS if enabled
+        (
+            cf_enabled,
+            cf_email,
+            cf_api_key,
+            cf_zone_id,
+            cf_hostname,
+        ) = get_cloudflare_config()
+
+        if cf_enabled:
+            print("🌐 Updating Cloudflare DNSLink...")
+            cf_manager = CloudflareManager(
+                cf_email, cf_api_key, cf_zone_id, cf_hostname
+            )
+
+            # use deployment ID as description
+            deployment_id = result.get("ID", "")
+            cf_result = cf_manager.update_dnslink(ipfs_hash_v1, deployment_id)
+
+            if cf_result:
+                # check if pending (status 202)
+                if cf_result.get("_status_code") == 202:
+                    print("⏳ Cloudflare DNSLink update pending")
+                    print("   DNS propagation will complete in 1-2 minutes")
+                else:
+                    print(f"✅ Cloudflare DNSLink updated to /ipfs/{ipfs_hash_v1}")
+            # if update fails, warning is already printed by update_dnslink
 
         return True
     else:
