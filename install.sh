@@ -16,17 +16,15 @@ echo "   Blog Generator Installation"
 echo "=================================="
 echo -e "${NC}"
 
-# Check if Python is installed
-if ! command -v python3 &> /dev/null && ! command -v python &> /dev/null; then
+# Detect Python command
+if command -v python3 &> /dev/null; then
+    PYTHON_CMD="python3"
+elif command -v python &> /dev/null; then
+    PYTHON_CMD="python"
+else
     echo -e "${RED}Error: Python is not installed!${NC}"
     echo -e "${YELLOW}Please install Python 3.8+ first.${NC}"
     exit 1
-fi
-
-# Use python3 if available, otherwise python
-PYTHON_CMD="python3"
-if ! command -v python3 &> /dev/null; then
-    PYTHON_CMD="python"
 fi
 
 echo -e "${YELLOW}Using Python: $(${PYTHON_CMD} --version)${NC}"
@@ -40,7 +38,7 @@ else
     ${PYTHON_CMD} -m venv venv
     if [ $? -ne 0 ]; then
         echo -e "${RED}Error: Failed to create virtual environment!${NC}"
-        echo -e "${YELLOW}Make sure you have venv module installed: pip install virtualenv${NC}"
+        echo -e "${YELLOW}Make sure you have venv module installed${NC}"
         exit 1
     fi
     echo -e "${GREEN}✅ Virtual environment created successfully!${NC}"
@@ -61,8 +59,8 @@ echo
 
 # Install dependencies
 echo -e "${YELLOW}Installing dependencies...${NC}"
-pip install --upgrade pip
-pip install -r requirements.txt
+venv/bin/pip install --upgrade pip
+venv/bin/pip install -r requirements.txt
 if [ $? -ne 0 ]; then
     echo -e "${RED}Error: Failed to install dependencies!${NC}"
     exit 1
