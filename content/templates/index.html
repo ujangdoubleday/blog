@@ -1,93 +1,79 @@
-{% extends "base.html" %}
-
-{% block meta %}
+{% extends "base.html" %} {% block meta %}
 <!-- Schema.org JSON-LD for Blog -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "{{ config.site.title }}",
-  "description": "{{ config.site.description }}",
-  "url": "{{ config.site.url }}/",
-  "author": {
-    "@type": "Person",
-    "name": "{{ config.site.author }}"
-  },
-  "publisher": {
-    "@type": "Organization",
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
     "name": "{{ config.site.title }}",
-    "url": "{{ config.site.url }}"
+    "description": "{{ config.site.description }}",
+    "url": "{{ config.site.url }}/",
+    "author": {
+      "@type": "Person",
+      "name": "{{ config.site.author }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ config.site.title }}",
+      "url": "{{ config.site.url }}"
+    }
   }
-}
 </script>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="home">
-    <header class="home-header">
-        <h1>{{ config.site.title }}</h1>
-        <p class="home-description">{{ config.site.description }}</p>
-    </header>
+  <!-- Title centered -->
+  <header class="home-header">
+    <h1>{{ config.site.title }}</h1>
+  </header>
 
-    <section class="posts">
-        {% if posts %}
-        {% for post in posts %}
-        <article class="post-preview">
-            <header class="post-preview-header">
-                <h2 class="post-preview-title">
-                    <a href="{{ post.url }}">{{ post.title }}</a>
-                </h2>
-                <div class="post-preview-meta">
-                    <time class="post-date" datetime="{{ post.date.isoformat() }}">
-                        {{ post.date.strftime('%B %d, %Y') }}
-                    </time>
-                    {% if post.reading_time %}
-                    <span class="post-reading-time">{{ post.reading_time }} min read</span>
-                    {% endif %}
-                </div>
-            </header>
+  <!-- HR separator -->
+  <hr class="home-separator">
 
-            {% if post.image %}
-            <div class="post-preview-image">
-                <a href="{{ post.url }}">
-                    {{ post.image | img_tag(post.title) | safe }}
-                </a>
-            </div>
-            {% endif %}
+  <!-- Categories section -->
+  {% if categories %}
+  <nav class="categories">
+    <a href="/" class="category-link">all</a>
+    {% for category in categories %}
+    <a href="/{{ category }}/" class="category-link">{{ category }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
 
-            <div class="post-preview-content">
-                {% if post.excerpt %}
-                <p>{{ post.excerpt }}</p>
-                {% else %}
-                <p>{{ post.content|striptags|truncate(200) }}</p>
-                {% endif %}
-                <a href="{{ post.url }}" class="read-more">Read more →</a>
-            </div>
-        </article>
-        {% endfor %}
+  <!-- HR separator after categories -->
+  <hr class="home-separator">
 
-        <!-- Pagination -->
-        {% if pagination %}
-        <nav class="pagination">
-            {% if pagination.prev_url %}
-            <a href="{{ pagination.prev_url }}" class="pagination-prev">← Newer posts</a>
-            {% endif %}
+  <!-- Posts list -->
+  <section class="posts">
+    {% if posts %} {% for post in posts %}
+    <article class="post-item">
+      <time class="post-date" datetime="{{ post.date.isoformat() }}">
+        {{ post.date.strftime('%b %d, %Y').lower() }}
+      </time>
+      <h2 class="post-title">
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </h2>
+    </article>
+    {% endfor %}
 
-            <span class="pagination-info">
-                Page {{ pagination.current_page }} of {{ pagination.total_pages }}
-            </span>
+    <!-- Pagination -->
+    {% if pagination %}
+    <nav class="pagination">
+      {% if pagination.prev_url %}
+      <a href="{{ pagination.prev_url }}" class="pagination-prev">← Newer posts</a>
+      {% endif %}
 
-            {% if pagination.next_url %}
-            <a href="{{ pagination.next_url }}" class="pagination-next">Older posts →</a>
-            {% endif %}
-        </nav>
-        {% endif %}
+      <span class="pagination-info">
+        Page {{ pagination.current_page }} of {{ pagination.total_pages }}
+      </span>
 
-        {% else %}
-        <div class="no-posts">
-            <p>No posts yet. Start writing!</p>
-        </div>
-        {% endif %}
-    </section>
+      {% if pagination.next_url %}
+      <a href="{{ pagination.next_url }}" class="pagination-next">Older posts →</a>
+      {% endif %}
+    </nav>
+    {% endif %} {% else %}
+    <div class="no-posts">
+      <p>No posts yet. Start writing!</p>
+    </div>
+    {% endif %}
+  </section>
 </div>
 {% endblock %}
