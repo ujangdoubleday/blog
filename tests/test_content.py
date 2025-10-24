@@ -40,7 +40,6 @@ class TestPost:
             description="Test description",
             excerpt="Test excerpt",
             image="/images/test.jpg",
-            tags=["test", "blog"],
             reading_time=5,
             published=False,
         )
@@ -49,7 +48,6 @@ class TestPost:
         assert post.description == "Test description"
         assert post.excerpt == "Test excerpt"
         assert post.image == "/images/test.jpg"
-        assert post.tags == ["test", "blog"]
         assert post.reading_time == 5
         assert post.published is False
 

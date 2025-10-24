@@ -28,7 +28,6 @@ class SearchIndexer:
                     "content": post.content,
                     "excerpt": post.excerpt,
                     "date": post.date.strftime("%Y-%m-%d"),
-                    "tags": post.tags,
                     "type": "post",
                 }
             )
@@ -42,7 +41,6 @@ class SearchIndexer:
                     "content": page.content,
                     "excerpt": page.excerpt,
                     "date": "",
-                    "tags": [],
                     "type": "page",
                 }
             )

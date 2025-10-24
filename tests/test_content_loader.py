@@ -44,8 +44,6 @@ class TestContentLoader:
         post = posts[0]
         assert post.title == "Test Post"
         assert post.author == "Test Author"
-        assert "test" in post.tags
-        assert "blog" in post.tags
         assert post.published is True
 
     def test_load_pages_empty_directory(self, temp_dir, sample_config):
