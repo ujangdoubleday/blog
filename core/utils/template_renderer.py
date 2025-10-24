@@ -293,6 +293,9 @@ class TemplateRenderer:
         output_dir = Path(self.config["build"]["output_dir"])
         posts_per_page = self.config["build"].get("posts_per_page", 10)
 
+        # collect unique categories from posts
+        categories = sorted(set(post.category for post in posts if post.category))
+
         # Calculate pagination
         total_posts = len(posts)
         total_pages = (total_posts + posts_per_page - 1) // posts_per_page
@@ -323,6 +326,7 @@ class TemplateRenderer:
 
             html = template.render(
                 posts=page_posts,
+                categories=categories,
                 pagination=pagination if total_pages > 1 else None,
                 config=self.config,
                 current_year=datetime.datetime.now().year,
@@ -350,3 +354,48 @@ class TemplateRenderer:
             else ""
         )
         print(f"Rendered index with {total_pages} page(s){minify_status}")
+
+    def render_category_pages(self, posts: List[Post]):
+        """Render category pages using index.html template"""
+        template = self.jinja_env.get_template("index.html")
+        output_dir = Path(self.config["build"]["output_dir"])
+
+        # collect unique categories from posts
+        categories = sorted(set(post.category for post in posts if post.category))
+
+        # render page for each category
+        for category in categories:
+            # filter posts by category
+            category_posts = [p for p in posts if p.category == category]
+
+            # create temporary config with category as title
+            temp_config = self.config.copy()
+            temp_config["site"] = temp_config["site"].copy()
+            temp_config["site"]["title"] = category
+
+            html = template.render(
+                posts=category_posts,
+                categories=categories,
+                pagination=None,
+                config=temp_config,
+                current_year=datetime.datetime.now().year,
+                metadata=self.metadata_generator,
+            )
+
+            # minify HTML if enabled
+            html = self._minify_html(html)
+
+            # create category directory
+            category_dir = output_dir / category
+            category_dir.mkdir(parents=True, exist_ok=True)
+            output_file = category_dir / "index.html"
+
+            with open(output_file, "w", encoding="utf-8") as f:
+                f.write(html)
+
+        minify_status = (
+            " (minified)"
+            if self.config.get("assets", {}).get("minify_html", False)
+            else ""
+        )
+        print(f"Rendered {len(categories)} category page(s){minify_status}")

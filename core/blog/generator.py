@@ -62,6 +62,7 @@ class BlogGenerator:
         self.template_renderer.render_posts(self.posts)
         self.template_renderer.render_pages(self.pages)
         self.template_renderer.render_index(self.posts)
+        self.template_renderer.render_category_pages(self.posts)
 
     def process_assets(self):
         """Process all static assets"""
