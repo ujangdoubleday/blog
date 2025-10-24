@@ -4,8 +4,8 @@ Content models for blog posts and pages
 
 import re
 import datetime
-from dataclasses import dataclass, field
-from typing import List, Optional
+from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -23,7 +23,6 @@ class Post:
     description: Optional[str] = None
     excerpt: Optional[str] = None
     image: Optional[str] = None
-    tags: List[str] = field(default_factory=list)
     reading_time: Optional[int] = None
     published: bool = True
 

@@ -80,7 +80,6 @@ class ContentLoader:
                     author=post_data.metadata.get("author"),
                     description=post_data.metadata.get("description"),
                     image=post_data.metadata.get("image"),
-                    tags=post_data.metadata.get("tags", []),
                     published=post_data.metadata.get("published", True),
                 )
 
