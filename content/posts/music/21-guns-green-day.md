@@ -3,7 +3,6 @@ title: '21 Guns - Green Day: Anthem of Surrender and Reflection'
 date: '2024-10-14'
 author: 'Music Reviewer'
 description: "A deep dive into Green Day's powerful ballad 21 Guns, exploring its themes of surrender, war, and personal struggle"
-tags: ['green-day', 'rock', 'ballad', '21st-century-breakdown', 'music-review']
 image: 'guns.webp'
 published: true
 ---
