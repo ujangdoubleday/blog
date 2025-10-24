@@ -68,28 +68,27 @@
     </header>
 
     {% if post.image %}
-    <div class="post-image">
+    <figure class="post-image">
         {{ post.image | img_tag(post.title) | safe }}
-    </div>
+    </figure>
     {% endif %}
 
-    <div class="post-content">
+    <section class="post-content">
         {{ post.content|safe }}
-    </div>
-
-    <footer class="post-footer">
-        <div class="post-navigation">
-            {% if prev_post %}
-            <a href="{{ prev_post.url }}" class="prev-post">
-                ← {{ prev_post.title }}
-            </a>
-            {% endif %}
-            {% if next_post %}
-            <a href="{{ next_post.url }}" class="next-post">
-                {{ next_post.title }} →
-            </a>
-            {% endif %}
-        </div>
-    </footer>
+    </section>
 </article>
+
+<!-- post navigation outside article for reader mode -->
+<nav class="post-navigation" hidden>
+    {% if prev_post %}
+    <a href="{{ prev_post.url }}" class="prev-post">
+        ← {{ prev_post.title }}
+    </a>
+    {% endif %}
+    {% if next_post %}
+    <a href="{{ next_post.url }}" class="next-post">
+        {{ next_post.title }} →
+    </a>
+    {% endif %}
+</nav>
 {% endblock %}
