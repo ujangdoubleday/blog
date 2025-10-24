@@ -30,25 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add reading progress bar for posts
-    const postContent = document.querySelector('.post-content, .page-content');
-    if (postContent) {
-        const progressBar = document.createElement('div');
-        progressBar.className = 'reading-progress';
-        progressBar.innerHTML = '<div class="reading-progress-bar"></div>';
-        document.body.appendChild(progressBar);
-
-        const progressBarFill = progressBar.querySelector('.reading-progress-bar');
-
-        window.addEventListener('scroll', function() {
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight - windowHeight;
-            const scrolled = window.scrollY;
-            const progress = scrolled / documentHeight;
-
-            progressBarFill.style.width = Math.min(progress * 100, 100) + '%';
-        });
-    }
+    // Reading progress bar removed to support browser reader mode
 
     // Copy code blocks functionality
     document.querySelectorAll('pre code').forEach(codeBlock => {
@@ -149,19 +131,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Theme toggle
-    const themeToggle = document.querySelector('#theme-toggle');
-    if (themeToggle) {
+    // Theme toggle - support both buttons (global and homepage)
+    const themeToggles = document.querySelectorAll('#theme-toggle, #theme-toggle-home');
+
+    // Set default theme to dark if no preference saved
+    const savedTheme = localStorage.getItem('theme');
+    const currentTheme = savedTheme || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    // Initialize all theme toggle buttons
+    themeToggles.forEach(themeToggle => {
         const sunIcon = themeToggle.querySelector('.sun-icon');
         const moonIcon = themeToggle.querySelector('.moon-icon');
 
-        // Set default theme to dark if no preference saved
-        const savedTheme = localStorage.getItem('theme');
-        const currentTheme = savedTheme || 'dark';
-
-        // Force dark mode as default
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        updateThemeIcons(currentTheme);
+        updateThemeIcons(sunIcon, moonIcon, currentTheme);
 
         themeToggle.addEventListener('click', function() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -169,10 +152,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateThemeIcons(newTheme);
-        });
 
-        function updateThemeIcons(theme) {
+            // Update all toggle buttons
+            themeToggles.forEach(toggle => {
+                const sun = toggle.querySelector('.sun-icon');
+                const moon = toggle.querySelector('.moon-icon');
+                updateThemeIcons(sun, moon, newTheme);
+            });
+        });
+    });
+
+    function updateThemeIcons(sunIcon, moonIcon, theme) {
+        if (sunIcon && moonIcon) {
             if (theme === 'dark') {
                 sunIcon.style.display = 'block';
                 moonIcon.style.display = 'none';
@@ -184,25 +175,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add CSS for reading progress and copy button
+// Add CSS for copy button
 const style = document.createElement('style');
 style.textContent = `
-    .reading-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        z-index: 1000;
-        background: #e2e8f0;
-    }
-
-    .reading-progress-bar {
-        height: 100%;
-        background: #2563eb;
-        transition: width 0.1s ease;
-    }
-
     .copy-code-button {
         position: absolute;
         top: 0.5rem;
@@ -230,36 +205,5 @@ style.textContent = `
         background: #059669;
     }
 
-    @media (max-width: 768px) {
-        .site-navigation.active {
-            display: flex;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--background);
-            flex-direction: column;
-            padding: 1rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            border-top: none;
-            border-radius: 0 0 8px 8px;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-    }
 `;
 document.head.appendChild(style);
