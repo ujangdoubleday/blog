@@ -544,10 +544,16 @@ body {
   border-top: 1px solid $border-color;
 }
 
+// override hidden attribute for post navigation
 .post-navigation {
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
+  max-width: $content-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 1rem;
+  border-top: 1px solid $border-color;
 
   .prev-post,
   .next-post {

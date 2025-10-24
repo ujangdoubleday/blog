@@ -7,6 +7,7 @@ import http.server
 import socketserver
 import webbrowser
 import threading
+import socket
 from typing import Dict, Any
 
 
@@ -15,7 +16,8 @@ class DevServer:
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        self.host = config.get("dev", {}).get("host", "localhost")
+        # bind to 0.0.0.0 to allow access from local network
+        self.host = "0.0.0.0"
         self.port = config.get("dev", {}).get("port", 8000)
 
     def serve(self, port: int = None):
@@ -30,14 +32,24 @@ class DevServer:
         # Create server
         Handler = http.server.SimpleHTTPRequestHandler
         with socketserver.TCPServer((self.host, self.port), Handler) as httpd:
-            print(f"Serving at http://{self.host}:{self.port}")
+            # get local IP address
+            local_ip = self._get_local_ip()
+
+            print("\n🚀 Development server running!")
+            print("\n📍 Local access:")
+            print("   http://localhost:{self.port}")
+            print("   http://127.0.0.1:{self.port}")
+            if local_ip:
+                print("\n🌐 Network access:")
+                print("   http://{local_ip}:{self.port}")
+            print("\n✋ Press Ctrl+C to stop\n")
 
             # Open browser in a separate thread
             def open_browser():
                 import time
 
                 time.sleep(1)
-                webbrowser.open(f"http://{self.host}:{self.port}")
+                webbrowser.open(f"http://localhost:{self.port}")
 
             threading.Thread(target=open_browser, daemon=True).start()
 
@@ -45,6 +57,18 @@ class DevServer:
                 httpd.serve_forever()
             except KeyboardInterrupt:
                 print("\nServer stopped.")
+
+    def _get_local_ip(self) -> str:
+        """get local IP address for network access"""
+        try:
+            # create a socket to get the local IP
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            local_ip = s.getsockname()[0]
+            s.close()
+            return local_ip
+        except Exception:
+            return ""
 
     def build_and_serve(self, generator):
         """Build the site and then serve it"""
