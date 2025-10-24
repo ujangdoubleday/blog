@@ -41,6 +41,7 @@ class AssetProcessor:
         self._process_javascript(static_dir, output_assets)
         self._process_images(static_dir, output_assets)
         self._process_fonts(static_dir, output_assets)
+        self._copy_favicon(static_dir, output_assets)
         self._copy_template_assets(output_assets)
 
         # Save asset manifest
@@ -183,6 +184,14 @@ class AssetProcessor:
                     shutil.copy2(font_file, output_file)
 
             print("Processed fonts")
+
+    def _copy_favicon(self, static_dir: Path, output_assets: Path):
+        """copy favicon to output directory"""
+        favicon_file = static_dir / "favicon.ico"
+        if favicon_file.exists():
+            output_favicon = output_assets / "favicon.ico"
+            shutil.copy2(favicon_file, output_favicon)
+            print("Copied favicon.ico")
 
     def _copy_template_assets(self, output_assets: Path):
         """Copy template static files"""
