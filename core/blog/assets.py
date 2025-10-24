@@ -32,6 +32,7 @@ class AssetProcessor:
         (output_assets / "css").mkdir(parents=True, exist_ok=True)
         (output_assets / "js").mkdir(parents=True, exist_ok=True)
         (output_assets / "images").mkdir(parents=True, exist_ok=True)
+        (output_assets / "icons").mkdir(parents=True, exist_ok=True)
 
         # Reset asset manifest
         self.asset_manifest = {}
@@ -40,6 +41,7 @@ class AssetProcessor:
         self._process_scss(static_dir, output_assets)
         self._process_javascript(static_dir, output_assets)
         self._process_images(static_dir, output_assets)
+        self._process_icons(static_dir, output_assets)
         self._process_fonts(static_dir, output_assets)
         self._copy_favicon(static_dir, output_assets)
         self._copy_template_assets(output_assets)
@@ -167,6 +169,69 @@ class AssetProcessor:
                         shutil.copy2(img_file, output_img)
 
             print("Processed images (converted to WebP)")
+
+    def _process_icons(self, static_dir: Path, output_assets: Path):
+        """convert icons to WebP with compression"""
+        icons_dir = static_dir / "icons"
+        if icons_dir.exists():
+            for icon_file in icons_dir.rglob("*"):
+                if icon_file.is_file() and icon_file.suffix.lower() in [
+                    ".jpg",
+                    ".jpeg",
+                    ".png",
+                    ".gif",
+                    ".webp",
+                    ".svg",
+                ]:
+                    relative_path = icon_file.relative_to(icons_dir)
+                    original_name = str(relative_path).replace("\\", "/")
+
+                    # convert to WebP for better compression
+                    if icon_file.suffix.lower() in [".jpg", ".jpeg", ".png"]:
+                        # change extension to .webp (keep same filename)
+                        webp_name = str(Path(original_name).with_suffix(".webp"))
+
+                        # read and convert to webp (returns content, width, height)
+                        icon_content, width, height = self._convert_to_webp(icon_file)
+
+                        # update manifest: original name → webp name (no hash)
+                        self.asset_manifest[
+                            f"icons/{original_name}"
+                        ] = f"icons/{webp_name}"
+
+                        # store dimensions for SEO
+                        self.image_dimensions[f"icons/{webp_name}"] = {
+                            "width": width,
+                            "height": height,
+                        }
+
+                        output_icon = output_assets / "icons" / webp_name
+                        output_icon.parent.mkdir(parents=True, exist_ok=True)
+
+                        # save webp content
+                        output_icon.write_bytes(icon_content)
+                    else:
+                        # copy other formats as-is (svg, gif, existing webp)
+                        self.asset_manifest[
+                            f"icons/{original_name}"
+                        ] = f"icons/{original_name}"
+
+                        # try to get dimensions for non-svg icons
+                        if icon_file.suffix.lower() != ".svg":
+                            try:
+                                with Image.open(icon_file) as img:
+                                    self.image_dimensions[f"icons/{original_name}"] = {
+                                        "width": img.size[0],
+                                        "height": img.size[1],
+                                    }
+                            except Exception:
+                                pass
+
+                        output_icon = output_assets / "icons" / original_name
+                        output_icon.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(icon_file, output_icon)
+
+            print("Processed icons (converted to WebP)")
 
     def _process_fonts(self, static_dir: Path, output_assets: Path):
         """copy font files to output"""
