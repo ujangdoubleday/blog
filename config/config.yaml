@@ -1,48 +1,48 @@
 # Blog Configuration
 site:
-  title: "My Blog"
-  description: "A simple static blog generated with Python"
-  author: "ilham alfath"
-  email: "ilham@xpqx.xyz"
-  url: "https://blog.xpqx.xyz"
-  language: "en"
+  title: 'ilham alfath blog'
+  description: 'A simple static blog generated with Python'
+  author: 'ilham alfath'
+  email: 'ilham@xpqx.xyz'
+  url: 'https://blog.xpqx.xyz'
+  language: 'en'
 
 # Build settings
 build:
-  input_dir: "content"
-  output_dir: "output"
-  template_dir: "content/templates"
-  static_dir: "content/static"
+  input_dir: 'content'
+  output_dir: 'output'
+  template_dir: 'content/templates'
+  static_dir: 'content/static'
   posts_per_page: 10
-  date_format: "%Y-%m-%d"
-  timezone: "UTC"
+  date_format: '%Y-%m-%d'
+  timezone: 'UTC'
 
 # Navigation
 navigation:
-  - name: "Home"
-    url: "/"
-  - name: "About"
-    url: "/about/"
-  - name: "Categories"
-    url: "/categories/"
+  - name: 'Home'
+    url: '/'
+  - name: 'About'
+    url: '/about/'
+  - name: 'Categories'
+    url: '/categories/'
 
 # Social links
 social:
-  github: ""
-  twitter: ""
-  linkedin: ""
-  email: ""
+  github: ''
+  twitter: ''
+  linkedin: ''
+  email: ''
 
 # RSS settings
 rss:
   enabled: true
-  title: "My Blog RSS Feed"
-  description: "Latest posts from my blog"
+  title: 'My Blog RSS Feed'
+  description: 'Latest posts from my blog'
   max_items: 20
 
 # Development settings
 dev:
-  host: "localhost"
+  host: 'localhost'
   port: 8000
   watch: true
   livereload: false
