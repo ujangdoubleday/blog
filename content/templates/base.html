@@ -56,6 +56,18 @@
     {% include 'partials/footer.html' %}
 
     <script src="{{ 'js/main.js' | asset }}"></script>
+    <script>
+      // Handle external links
+      document.addEventListener('DOMContentLoaded', function() {
+        const links = document.querySelectorAll('a[href^="http://"], a[href^="https://"]');
+        links.forEach(link => {
+          if (!link.href.includes(window.location.hostname) && !link.getAttribute('target')) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+          }
+        });
+      });
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

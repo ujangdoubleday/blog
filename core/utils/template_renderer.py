@@ -9,7 +9,6 @@ from typing import List, Dict, Any
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import markdown
-
 from core.blog.content import Post, Page
 from core.blog.metadata import MetadataGenerator
 
@@ -32,7 +31,14 @@ class TemplateRenderer:
         )
 
         # Add custom filters
-        env.filters["markdown"] = lambda text: markdown.markdown(text)
+        env.filters["markdown"] = lambda text: markdown.markdown(
+            text,
+            extensions=[
+                "markdown.extensions.extra",
+                "markdown.extensions.tables",
+                "markdown.extensions.fenced_code",
+            ],
+        )
         env.filters["excerpt"] = (
             lambda text, length=200: text[:length] + "..."
             if len(text) > length
