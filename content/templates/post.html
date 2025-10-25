@@ -41,11 +41,7 @@
     "@type": "Organization",
     "name": "{{ config.site.title }}",
     "url": "{{ config.site.url }}"
-  }{% if post.image %},
-  "image": {
-    "@type": "ImageObject",
-    "url": "{{ config.site.url }}{{ post.image }}"
-  }{% endif %}
+  }
 }
 </script>
 {% endblock %}

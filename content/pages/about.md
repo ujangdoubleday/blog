@@ -1,99 +1,46 @@
 ---
-title: 'About This Blog'
+title: 'About Me'
 slug: 'about'
-description: 'Learn more about this blog and the technology behind it'
+description: 'Learn more about Ilham Alfath and this blog'
 ---
 
-# About This Blog
+---
 
-Welcome to my personal blog! This site is built using a custom static site generator written in Python, showcasing the power of simple tools and clean code.
+<div class="post-meta-header" style="margin-top: 0.5rem; margin-bottom: 2rem;">
+    <div></div>
+    <a href="/" class="see-all-posts">Back to Home</a>
+</div>
+
+Hi, I'm **Ilham Alfath**, a developer who enjoys building things and sharing what I learn along the way.
+
+## What I Do
+
+I work with code, explore new technologies, and occasionally write about my experiences. This blog is my space to document projects, share tutorials, and reflect on the things I find interesting in the world of software development.
 
 ## What You'll Find Here
 
-This blog covers a variety of topics that I'm passionate about:
+This blog covers topics I'm passionate about:
 
-### Programming & Development
+- **Programming & Development**: tutorials, tips, and best practices
+- **Technology**: thoughts on tools, trends, and techniques
+- **Personal Projects**: documentation and lessons learned
+- **Random Thoughts**: anything else worth sharing
 
-- Python tutorials and best practices
-- Web development techniques
-- Code optimization tips
-- Open source project discussions
+## Get in Touch
 
-### Technology
+I'm always open to connecting with fellow developers and tech enthusiasts:
 
-- Reviews of development tools
-- Emerging technology trends
-- Software architecture insights
-- DevOps and deployment strategies
+- **GitHub:** [ github.com/ujangdoubleday](https://github.com/ujangdoubleday)
+- **Email:** [ ilham@xpqx.xyz](mailto:ilham@xpqx.xyz)
 
-### Personal Projects
+## About This Blog
 
-- Documentation of side projects
-- Learning experiences and challenges
-- Code walkthroughs and explanations
-- Project retrospectives
+This site is built with a custom Python-based static site generator and deployed via IPFS. The source code is open source and available on GitHub:
 
-## About the Technology
+- **Blog Repository:** [ github.com/ujangdoubleday/blog](https://github.com/ujangdoubleday/blog)
 
-This blog is powered by a custom-built static site generator with the following features:
+Feel free to check it out, fork it, or contribute if you're interested!
 
-- **Python-based**: Clean, readable code that's easy to extend
-- **Markdown Support**: Write content in simple Markdown format
-- **Jinja2 Templates**: Flexible templating system for layouts
-- **SCSS Processing**: Modern CSS with variables and mixins
-- **Asset Optimization**: Automatic image compression and minification
-- **RSS Feed**: Keep up with new posts via RSS
-- **Search Functionality**: Find content quickly with client-side search
-- **Responsive Design**: Looks great on all devices
+---
 
-## Technical Stack
-
-The site is built using:
-
-- **Python 3.8+**: Core language for the generator
-- **Markdown**: Content format with frontmatter support
-- **Jinja2**: Template engine for HTML generation
-- **SCSS/Sass**: CSS preprocessing
-- **JavaScript**: Client-side functionality
-- **PIL/Pillow**: Image processing and optimization
-
-## Performance
-
-The site is optimized for speed and efficiency:
-
-- ⚡ **Fast Loading**: Minimal CSS and JavaScript
-- 📱 **Mobile Optimized**: Responsive design for all devices
-- 🔍 **SEO Friendly**: Proper meta tags and semantic HTML
-- 📊 **Analytics Ready**: Easy to integrate tracking
-- 🌐 **CDN Compatible**: Optimized for content delivery networks
-
-## Open Source
-
-The source code for this blog generator is available for anyone interested in:
-
-- Learning how static site generators work
-- Building their own custom blog platform
-- Contributing improvements and features
-- Using it as a starting point for their own projects
-
-## Contact
-
-Feel free to reach out if you have:
-
-- Questions about the blog or its technology
-- Suggestions for new content
-- Collaboration opportunities
-- Technical discussions
-
-You can find links to my various profiles in the footer, or check out my projects on GitHub.
-
-## Colophon
-
-This site was built with care using:
-
-- Custom Python static site generator
-- Typography optimized for readability
-- Minimal, clean design aesthetic
-- Focus on content over flashy effects
-
-Thanks for visiting, and I hope you find the content useful!
+Thanks for stopping by. I hope you find something useful here.
