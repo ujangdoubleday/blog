@@ -1,7 +1,7 @@
 ---
 title: "Breaking Down Green Day's '21 Guns'"
 date: '2025-10-25'
-author: 'Blog Author'
+author: 'ilham alfath'
 description: "Exploring the deeper meaning behind Green Day's iconic song '21 Guns'"
 published: true
 ---
