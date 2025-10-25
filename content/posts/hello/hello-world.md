@@ -3,13 +3,14 @@ title: 'Hello World - Welcome to My Blog'
 date: '2024-10-14'
 author: 'Blog Author'
 description: 'My first blog post introducing this new Python-based static site generator'
-image: 'hello.webp'
 published: true
 ---
 
 # Welcome to My Blog!
 
 This is my first blog post using this custom Python-based static site generator. I'm excited to share my thoughts and experiences through this platform.
+
+![Welcome Banner](/_sync/images/hello.webp)
 
 ## What This Blog Is About
 
@@ -21,6 +22,8 @@ This blog will cover various topics including:
 - **Learning**: Sharing what I learn along the way
 
 ## About the Blog Generator
+
+![Blog Generator Architecture](hello.jpg)
 
 This blog is built using a custom Python static site generator that features:
 

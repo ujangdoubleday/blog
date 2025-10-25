@@ -3,13 +3,14 @@ title: '21 Guns - Green Day: Anthem of Surrender and Reflection'
 date: '2024-10-14'
 author: 'Music Reviewer'
 description: "A deep dive into Green Day's powerful ballad 21 Guns, exploring its themes of surrender, war, and personal struggle"
-image: 'guns.webp'
 published: true
 ---
 
 # 21 Guns - Green Day: Anthem of Surrender and Reflection
 
 "21 Guns" adalah salah satu lagu paling powerful dari album _21st Century Breakdown_ (2009) milik Green Day. Lagu ini menjadi single kedua dari album tersebut dan berhasil mencapai posisi tinggi di berbagai chart internasional.
+
+![21 Guns Album Cover](/_sync/images/guns.webp)
 
 ## About the Song
 
@@ -38,6 +39,8 @@ Lagu ini menampilkan:
 - Build-up yang powerful menuju chorus
 
 ## Cultural Impact
+
+![Green Day Performance](guns.jpg)
 
 "21 Guns" menjadi salah satu lagu Green Day yang paling dikenal luas, terutama karena:
 
