@@ -1,14 +1,15 @@
 ---
 title: 'The History and Significance of "Hello World"'
 date: '2025-10-23'
-author: 'Blog Author'
+author: 'ilham alfath'
 description: 'Exploring why "Hello World" became the universal first program in coding'
 published: true
 ---
 
 # Why Do We Start With "Hello World"?
 
-![First Hello World example](/_sync/images/hello.webp)
+![First Hello World example](/_sync/images/hello-world.webp)
+_Image source: [Udacity](https://www.udacity.com/blog/2020/11/what-you-need-to-know-about-hello-world-in-python.html)_
 
 The "Hello World" program has become the universal first example when learning any programming language, serving as an initiation ritual for programmers worldwide.
 
@@ -65,7 +66,7 @@ What actually happens when you run a Hello World program:
    - Calls system output functions
    - Returns exit status
 
-> "Hello World represents the programmer's first conversation with the machine" - [Computer History Museum](https://computerhistory.org)
+> "Hello World represents the programmer's first conversation with the machine" - [Codeinterview](https://codeinterview.io/blog/the-history-of-hello-world-a-brief-overview/)
 
 ## Modern Variations
 
@@ -77,8 +78,7 @@ Contemporary twists on Hello World:
 
 ## Further Reading
 
-- [The Evolution of Hello World](https://blog.hackerrank.com/the-history-of-hello-world/)
-- [Teaching Programming Concepts](https://cseducators.stackexchange.com/)
+- [The History of ‘Hello, World’](https://www.hackerrank.com/blog/the-history-of-hello-world/)
 - [Hello World in 300+ Languages](https://helloworldcollection.github.io/)
 
 _This post explores the technical and cultural significance of programming's most famous first step._
