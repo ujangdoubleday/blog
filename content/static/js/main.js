@@ -5,6 +5,22 @@ if (!localStorage.getItem('theme')) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Search toggle functionality
+    const searchToggle = document.querySelector('#search-toggle');
+    const searchInputWrapper = document.querySelector('#search-input-wrapper');
+    const searchInput = document.querySelector('#search-input');
+    const searchResults = document.querySelector('#search-results');
+
+    if (searchToggle && searchInputWrapper) {
+        searchToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchInputWrapper.style.display = searchInputWrapper.style.display === 'none' ? 'block' : 'none';
+            if (searchInputWrapper.style.display === 'block') {
+                searchInput.focus();
+            }
+        });
+    }
+
     // Mobile menu toggle
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const siteNavigation = document.querySelector('.site-navigation');
@@ -66,9 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
     images.forEach(img => imageObserver.observe(img));
 
     // Search functionality (if search input exists)
-    const searchInput = document.querySelector('#search-input');
-    const searchResults = document.querySelector('#search-results');
-
     if (searchInput && searchResults) {
         let searchData = [];
 
@@ -91,21 +104,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const results = searchData.filter(item =>
                 item.title.toLowerCase().includes(query) ||
-                item.content.toLowerCase().includes(query) ||
-                item.tags.some(tag => tag.toLowerCase().includes(query))
+                item.content.toLowerCase().includes(query)
             ).slice(0, 5);
 
             if (results.length > 0) {
                 searchResults.innerHTML = results.map(result => `
                     <div class="search-result">
-                        <h4><a href="${result.url}">${result.title}</a></h4>
-                        <p>${result.excerpt}</p>
+                        <a href="${result.url}" class="search-result-link">${result.title}</a>
                         <small>${result.date}</small>
                     </div>
                 `).join('');
                 searchResults.style.display = 'block';
             } else {
-                searchResults.innerHTML = '<div class="search-result">No results found</div>';
+                searchResults.innerHTML = '<div class="search-result search-no-results">No results found</div>';
                 searchResults.style.display = 'block';
             }
         });
@@ -117,6 +128,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Close search input wrapper when clicking outside
+    document.addEventListener('click', function(e) {
+        if (searchInputWrapper && searchToggle && !searchToggle.contains(e.target) && !searchInputWrapper.contains(e.target)) {
+            searchInputWrapper.style.display = 'none';
+        }
+    });
 
     // Theme toggle - support both buttons (global and homepage)
     const themeToggles = document.querySelectorAll('#theme-toggle, #theme-toggle-home');
