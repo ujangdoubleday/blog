@@ -59,13 +59,14 @@ $code-background: var(--code-background);
 $hover-background: var(--hover-background);
 $accent-background: var(--accent-background);
 
-$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-$font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+$font-body: var(--font-body);
+$font-heading: var(--font-heading);
+$font-code: var(--font-code);
+$font-quote: var(--font-quote);
 
 $container-width: 1200px;
 $content-width: 800px;
 $border-radius: 8px;
-$transition: all 0.2s ease;
 $link-color: var(--link-color);
 $link-hover: var(--link-hover);
 $hr-color: var(--hr-color);
@@ -79,20 +80,15 @@ $hr-color: var(--hr-color);
 html {
   font-size: 16px;
   line-height: 1.6;
-  transition: $transition;
 }
 
 body {
-  font-family: $font-family;
+  font-family: $font-body;
   color: $text-color;
   background: $background;
   line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
 
 .container {
   max-width: $container-width;
@@ -120,7 +116,6 @@ body {
   padding: 0.5rem;
   border-radius: 4px;
   color: $text-color;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,7 +172,6 @@ body {
     color: $link-color;
     text-decoration: none;
     font-size: 1rem;
-    transition: color 0.2s ease;
 
     &:hover {
       color: $link-hover;
@@ -217,7 +211,6 @@ body {
     a {
       color: $link-color;
       text-decoration: none;
-      transition: color 0.2s ease;
 
       &:hover {
         color: $link-hover;
@@ -276,7 +269,6 @@ body {
     color: $link-color;
     text-decoration: none;
     font-size: 0.9rem;
-    transition: color 0.2s ease;
 
     &:hover {
       color: $link-hover;
@@ -345,7 +337,7 @@ body {
     background: $code-background;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    font-family: $font-family-mono;
+    font-family: $font-code;
     font-size: 0.9rem;
   }
 
@@ -451,7 +443,6 @@ body {
     a {
       color: $light-text;
       text-decoration: none;
-      transition: $transition;
 
       &:hover {
         color: $primary-color;
@@ -468,20 +459,6 @@ body {
   }
 }
 
-@keyframes heartbeat {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  10%,
-  30% {
-    transform: scale(1.1);
-  }
-  20%,
-  40% {
-    transform: scale(1);
-  }
-}
 
 .no-posts {
   text-align: center;
