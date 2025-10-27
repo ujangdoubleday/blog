@@ -65,10 +65,6 @@ class MetadataGenerator:
                 f"{self.base_url}{image}" if not image.startswith("http") else image
             )
 
-        twitter_site = self.config.get("social", {}).get("twitter")
-        if twitter_site:
-            twitter_data["twitter:site"] = twitter_site
-
         return twitter_data
 
     def generate_schema_blog(self) -> str:
