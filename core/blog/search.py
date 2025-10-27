@@ -26,7 +26,6 @@ class SearchIndexer:
                     "title": post.title,
                     "url": post.url,
                     "content": post.content,
-                    "excerpt": post.excerpt,
                     "date": post.date.strftime("%Y-%m-%d"),
                     "type": "post",
                 }
@@ -39,7 +38,6 @@ class SearchIndexer:
                     "title": page.title,
                     "url": page.url,
                     "content": page.content,
-                    "excerpt": page.excerpt,
                     "date": "",
                     "type": "page",
                 }
