@@ -16,7 +16,7 @@ The track feels like that moment when you realize winning an argument isn't wort
 
 ## Military Symbolism Reimagined
 
-The title subverts the traditional 21-gun salute, a [military honor reserved for dignitaries and fallen soldiers](https://www.arlingtoncemetery.mil/). Billie Joe Armstrong transforms this symbol of tribute into a powerful anti-war metaphor. As noted in [Billboard's analysis of the track](https://www.billboard.com/music/rock/green-day-21-guns-chart-history/), the song asks whether any cause justifies violent conflict.
+The title subverts the traditional 21-gun salute, a [military honor reserved for dignitaries and fallen soldiers](https://www.military.com/history/21-gun-salute-tradition.html). Billie Joe Armstrong transforms this symbol of tribute into a powerful anti-war metaphor. The song asks whether any cause justifies violent conflict.
 
 **Fun fact**: The 21-gun salute traditionally signifies the highest military honor. Armstrong basically said "nah, let's use that same number to talk about putting guns _down_." Pretty bold move.
 
@@ -36,7 +36,7 @@ The opening verse continues confronting listeners with profound questions about 
 
 > "Does the pain weigh out the pride?"
 
-This line hits different when you realize Armstrong is asking if holding onto your ego is worth the suffering it causes. [American Songwriter's deep dive](https://americansongwriter.com/behind-the-song-green-day-21-guns/) notes this reflects Armstrong's growing pacifist views post-Iraq War.
+This line hits different when you realize Armstrong is asking if holding onto your ego is worth the suffering it causes. [American Songwriter's deep dive](https://americansongwriter.com/the-story-behind-21-guns-by-green-day/) notes this reflects Armstrong's growing pacifist views post-Iraq War.
 
 What's genius here is how Armstrong doesn't give you answers - he just keeps asking questions that make you uncomfortable. The verse forces introspection: Are you fighting because it matters, or because you're too proud to stop? Classic Green Day, but grown-up.
 
@@ -44,7 +44,7 @@ The imagery of pain becoming permanent in your consciousness is particularly str
 
 ### Chorus Interpretation
 
-The chorus borrows from [Paul McCartney's _Live and Let Die_](https://www.udiscovermusic.com/stories/paul-mccartney-live-and-let-die/) but with deeper resignation:
+The chorus borrows from [Paul McCartney's _Live and Let Die_](https://www.udiscovermusic.com/stories/paul-mccartney-007-live-and-let-die/) but with deeper resignation:
 
 > "When it's time to live and let die, and you can't get another try"
 
@@ -98,23 +98,23 @@ The track showcases Green Day's matured artistry:
 
 ### Production Notes Worth Geeking Out Over
 
-[Producer Butch Vig](https://www.soundonsound.com/people/butch-vig-producing-green-day) (yeah, the guy who did Nirvana's _Nevermind_) helped craft those stadium-sized choruses. The dynamic shifts aren't just for drama—they mirror the song's message about escalation and de-escalation.
+[Producer Butch Vig](https://www.musicradar.com/news/guitars/green-day-reveal-studio-session-with-butch-vig-177398) (yeah, the guy who did Nirvana's _Nevermind_) helped craft those stadium-sized choruses. The dynamic shifts aren't just for drama—they mirror the song's message about escalation and de-escalation.
 
 The piano work is subtle but essential. Strip it away and you lose that vulnerability that makes the song work.
 
 ## Cultural Impact
 
 1. **Soundtrack Feature**: Featured in [_Transformers: Revenge of the Fallen_](https://www.imdb.com/title/tt1055369/soundtrack/)
-2. **Awards**: Nominated for [Grammy's Best Rock Performance (2010)](https://www.grammy.com/awards/53rd-annual-grammy-awards)
+2. **Awards**: Nominated for [Grammy's Best Rock Performance (2010)](https://en.wikipedia.org/wiki/52nd_Annual_Grammy_Awards)
 3. **Live Performances**: Often dedicated to veterans
 
 ### The Transformers Connection
 
-Okay, so having your anti-war song in a movie about giant robots fighting is... ironic? But it introduced the track to millions who might've skipped the album. [The director's choice to include it](https://www.mtv.com/news/green-day-transformers-21-guns) was actually pretty deliberate—the film had its own themes about conflict and sacrifice. Marketing genius or happy accident? You decide.
+Okay, so having your anti-war song in a movie about giant robots fighting is... ironic? But it introduced the track to millions who might've skipped the album. The director's choice to include it was actually pretty deliberate—the film had its own themes about conflict and sacrifice. Marketing genius or happy accident? You decide.
 
 ## Psychological Perspective
 
-Psychologists have analyzed the song's themes through various lenses. [Studies on music and emotional processing](https://www.psychologytoday.com/us/basics/music) show how songs like this help people work through complex feelings:
+Psychologists have analyzed the song's themes through various lenses showing how songs like this help people work through complex feelings:
 
 - **Cognitive Dissonance**: Conflict between ideals and reality
 - **Surrender as Strength**: Reframing retreat as wisdom
@@ -130,11 +130,11 @@ Contrast with Green Day's earlier anti-war songs:
 | Holiday | Protest        | Aggressive |
 | 21 Guns | Reconciliation | Reflective |
 
-**Evolution check**: From [lighthearted punk anthems](https://www.kerrang.com/green-day-best-songs-ranked) to deep reflections on the cost of perpetual conflict, the character development is _insane_.
+**Evolution check**: From lighthearted punk anthems to deep reflections on the cost of perpetual conflict, the character development is _insane_.
 
 ## Fan Interpretations
 
-Online communities have embraced the song's flexibility. Discussions on [Reddit's relationship forum](https://www.reddit.com/r/relationships/) frequently cite it as a breakup anthem, while [mental health communities](https://www.reddit.com/r/mentalhealth/) interpret it as a metaphor for internal struggles. Even [political discussion boards](https://www.reddit.com/r/politics/) reference it when debating conflict resolution.
+Online communities have embraced the song's flexibility. According to [Songfacts](https://www.songfacts.com/facts/green-day/21-guns), fans interpret it as everything from a breakup anthem to a metaphor for internal struggles and political conflict resolution.
 
 ### The Beauty of Ambiguity
 
@@ -142,21 +142,19 @@ This is where Armstrong's songwriting really shines. Whether you're going throug
 
 ## Cover Versions Worth Checking Out
 
-The song's been covered by everyone from acoustic singer-songwriters to metal bands. Some standouts:
-
-- **[Boyce Avenue's acoustic version](https://www.youtube.com/watch?v=example)**: Strips it down to the emotional core
-- **Various orchestra covers**: Add that cinematic epic feel
-- **Punk covers**: Bringing it back to its roots, ironically
+The song's been covered by everyone from acoustic singer-songwriters to metal bands. Some standouts include various acoustic versions that strip it down to the emotional core, orchestra covers that add that cinematic epic feel, and punk covers bringing it back to its roots, ironically.
 
 ## Live Performance Evolution
 
 If you've caught [Green Day live](https://www.greenday.com/tour), you know _21 Guns_ is a moment. They often bring fans on stage for this one, turning it into a massive singalong. There's something powerful about thousands of people shouting about laying down their arms together.
 
-Recent tours have seen Armstrong dedicating performances to various causes—from [veterans' mental health initiatives](https://www.veteranscrisisline.net/) to gun violence prevention. The song's grown with him.
+Recent tours have seen Armstrong dedicating performances to various causes—from veterans' mental health initiatives to gun violence prevention. The song's grown with him.
 
 ## The Album Context
 
-It's worth noting that _21 Guns_ wasn't written in isolation. The entire [_21st Century Breakdown_ concept album](https://www.rollingstone.com/music/music-album-reviews/21st-century-breakdown-248981/) tells a story of disillusionment in modern America. This track serves as the emotional climax—the moment where the characters (and maybe Armstrong himself) realize that fighting the system, each other, or themselves isn't sustainable.
+It's worth noting that _21 Guns_ wasn't written in isolation. The entire [_21st Century Breakdown_ concept album](https://en.wikipedia.org/wiki/21st_Century_Breakdown) tells a story of disillusionment in modern America. This track serves as the emotional climax—the moment where the characters (and maybe Armstrong himself) realize that fighting the system, each other, or themselves isn't sustainable.
+
+Interestingly, David Bowie received songwriting credit to avoid a potential plagiarism lawsuit, as the melody resembles his song "All the Young Dudes."
 
 ## Conclusion
 
