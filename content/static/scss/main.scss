@@ -99,13 +99,136 @@ body {
 .site-header {
   background: $background;
   padding: 1rem 0 0;
+  margin-top: 1.25rem;
 
   .header-container {
     max-width: $content-width;
     margin: 0 auto;
     padding: 0 1rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $text-color;
+  text-align: center;
+  flex: 1;
+  text-transform: capitalize;
+  line-height: 1.2;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-toggle {
+  background: transparent;
+  border: 1px solid $border-color;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: $text-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: $hover-background;
+    border-color: $text-color;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.search-input-wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: $background;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  z-index: 1000;
+  min-width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  background: $background;
+  border: none;
+  color: $text-color;
+  font-family: $font-body;
+  font-size: 1rem;
+  outline: none;
+  border-radius: 4px 4px 0 0;
+
+  &::placeholder {
+    color: $light-text;
+  }
+
+  &:focus {
+    background: $hover-background;
+  }
+}
+
+.search-results {
+  max-height: 400px;
+  overflow-y: auto;
+  border-top: 1px solid $border-color;
+}
+
+.search-result {
+  padding: 0.75rem;
+  border-bottom: 1px solid $border-color;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: $hover-background;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .search-result-link {
+    display: block;
+    color: $link-color;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+
+    &:hover {
+      color: $link-hover;
+    }
+  }
+
+  small {
+    color: $light-text;
+    font-size: 0.8rem;
+    display: block;
+  }
+
+  &.search-no-results {
+    text-align: center;
+    color: $light-text;
+    cursor: default;
+
+    &:hover {
+      background: transparent;
+    }
   }
 }
 
@@ -119,6 +242,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 
   &:hover {
     background: $hover-background;
@@ -142,23 +266,11 @@ body {
   position: relative;
 }
 
-.home-header {
-  text-align: center;
-  margin-bottom: 0.5rem;
-  margin-top: 0;
-
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: $text-color;
-    margin: 0;
-  }
-}
 
 .home-separator {
   border: none;
   border-top: 3px solid $hr-color;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 }
 
 .categories {
@@ -204,7 +316,7 @@ body {
   }
 
   .post-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     margin: 0;
 
@@ -473,20 +585,15 @@ img {
 
 @media (max-width: 768px) {
   .site-header {
-    padding: 0.5rem 0 0;
+    padding: 1rem 0 0;
+  }
+
+  .header-title {
+    font-size: 1.25rem;
   }
 
   .home {
     padding-top: 0;
-  }
-
-  .home-header {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-
-    h1 {
-      font-size: 1.5rem;
-    }
   }
 
   .post {
