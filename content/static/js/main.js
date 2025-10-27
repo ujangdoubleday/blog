@@ -5,21 +5,38 @@ if (!localStorage.getItem('theme')) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Search toggle functionality
+    // Search modal functionality
     const searchToggle = document.querySelector('#search-toggle');
-    const searchInputWrapper = document.querySelector('#search-input-wrapper');
+    const searchModal = document.querySelector('#search-modal');
+    const searchModalOverlay = document.querySelector('#search-modal-overlay');
     const searchInput = document.querySelector('#search-input');
     const searchResults = document.querySelector('#search-results');
 
-    if (searchToggle && searchInputWrapper) {
+    if (searchToggle && searchModal) {
         searchToggle.addEventListener('click', function(e) {
             e.stopPropagation();
-            searchInputWrapper.style.display = searchInputWrapper.style.display === 'none' ? 'block' : 'none';
-            if (searchInputWrapper.style.display === 'block') {
-                searchInput.focus();
-            }
+            searchModal.style.display = 'flex';
+            searchInput.focus();
         });
     }
+
+    // Close modal when clicking overlay
+    if (searchModalOverlay) {
+        searchModalOverlay.addEventListener('click', function() {
+            searchModal.style.display = 'none';
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+        });
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchModal && searchModal.style.display === 'flex') {
+            searchModal.style.display = 'none';
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+        }
+    });
 
     // Mobile menu toggle
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -84,6 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Search functionality (if search input exists)
     if (searchInput && searchResults) {
         let searchData = [];
+        let searchTimeout;
+        let currentHighlight = -1;
 
         // Load search data
         fetch('/search.json')
@@ -93,33 +112,76 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(err => console.error('Search data not found:', err));
 
-        searchInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase().trim();
+        // Debounced search function
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
 
             if (query.length < 2) {
                 searchResults.innerHTML = '';
                 searchResults.style.display = 'none';
+                currentHighlight = -1;
                 return;
             }
 
             const results = searchData.filter(item =>
                 item.title.toLowerCase().includes(query) ||
                 item.content.toLowerCase().includes(query)
-            ).slice(0, 5);
+            ).slice(0, 8);
 
             if (results.length > 0) {
-                searchResults.innerHTML = results.map(result => `
-                    <div class="search-result">
+                searchResults.innerHTML = results.map((result, index) => `
+                    <div class="search-result" data-index="${index}">
+                        <span class="search-result-type">${result.type}</span>
                         <a href="${result.url}" class="search-result-link">${result.title}</a>
-                        <small>${result.date}</small>
+                        ${result.date ? `<small>${result.date}</small>` : ''}
                     </div>
                 `).join('');
                 searchResults.style.display = 'block';
+                currentHighlight = -1;
             } else {
                 searchResults.innerHTML = '<div class="search-result search-no-results">No results found</div>';
                 searchResults.style.display = 'block';
+                currentHighlight = -1;
+            }
+        }
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 150);
+        });
+
+        // Keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {
+            const resultItems = searchResults.querySelectorAll('.search-result:not(.search-no-results)');
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentHighlight = Math.min(currentHighlight + 1, resultItems.length - 1);
+                updateHighlight(resultItems);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentHighlight = Math.max(currentHighlight - 1, -1);
+                updateHighlight(resultItems);
+            } else if (e.key === 'Enter' && currentHighlight >= 0) {
+                e.preventDefault();
+                const link = resultItems[currentHighlight].querySelector('.search-result-link');
+                if (link) link.click();
+            } else if (e.key === 'Escape') {
+                searchResults.style.display = 'none';
+                currentHighlight = -1;
             }
         });
+
+        function updateHighlight(items) {
+            items.forEach((item, index) => {
+                if (index === currentHighlight) {
+                    item.style.background = 'var(--hover-background)';
+                    item.scrollIntoView({ block: 'nearest' });
+                } else {
+                    item.style.background = '';
+                }
+            });
+        }
 
         // Hide search results when clicking outside
         document.addEventListener('click', function(e) {
