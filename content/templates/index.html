@@ -20,10 +20,6 @@
 </script>
 {% endblock %} {% block content %}
 <div class="home">
-  <!-- Title centered -->
-  <header class="home-header">
-    <h1>{{ config.site.title }}</h1>
-  </header>
 
   <!-- HR separator -->
   <hr class="home-separator">
@@ -76,4 +72,27 @@
     {% endif %}
   </section>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headerTitle = document.getElementById('header-title');
+    const siteTitle = '{{ config.site.title }}';
+
+    // set initial title
+    headerTitle.textContent = siteTitle;
+
+    // update title when category link is clicked
+    const categoryLinks = document.querySelectorAll('.category-link');
+    categoryLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const category = this.textContent.trim();
+        if (category === 'all') {
+          headerTitle.textContent = siteTitle;
+        } else {
+          headerTitle.textContent = category;
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}
