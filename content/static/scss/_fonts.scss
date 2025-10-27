@@ -1,99 +1,46 @@
-// Font face declarations
+// google Fonts are loaded via CDN in base.html
+// font families are defined below with proper fallbacks
 
-// Inter - Body text
-@font-face {
-    font-family: 'Inter';
-    src: url('/_sync/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations');
-    font-weight: 100 900;
-    font-display: swap;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Inter';
-    src: url('/_sync/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations');
-    font-weight: 100 900;
-    font-display: swap;
-    font-style: italic;
-}
-
-// Playfair Display - Headings
-@font-face {
-    font-family: 'Playfair Display';
-    src: url('/_sync/fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype-variations');
-    font-weight: 400 900;
-    font-display: swap;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Playfair Display';
-    src: url('/_sync/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf') format('truetype-variations');
-    font-weight: 400 900;
-    font-display: swap;
-    font-style: italic;
-}
-
-// Fira Code - Code blocks
-@font-face {
-    font-family: 'Fira Code';
-    src: url('/_sync/fonts/FiraCode-VariableFont_wght.ttf') format('truetype-variations');
-    font-weight: 300 700;
-    font-display: swap;
-    font-style: normal;
-}
-
-// Lora - Quotes/blockquotes
-@font-face {
-    font-family: 'Lora';
-    src: url('/_sync/fonts/Lora-VariableFont_wght.ttf') format('truetype-variations');
-    font-weight: 400 700;
-    font-display: swap;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Lora';
-    src: url('/_sync/fonts/Lora-Italic-VariableFont_wght.ttf') format('truetype-variations');
-    font-weight: 400 700;
-    font-display: swap;
-    font-style: italic;
-}
-
-// Font family variables
+// font family variables
 :root {
-    --font-heading: 'Playfair Display', Georgia, serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-code: 'Fira Code', 'Courier New', monospace;
-    --font-quote: 'Lora', Georgia, serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'Fira Code', 'Courier New', monospace;
+  --font-quote: 'Lora', Georgia, serif;
 }
 
 // Apply fonts to elements
 body {
-    font-family: var(--font-body);
-    font-weight: 400;
-    line-height: 1.6;
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .site-title,
 .post-title,
 .page-title,
 .home-header h1 {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    line-height: 1.2;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-code, pre,
+code,
+pre,
 .codehilite,
 .highlight {
-    font-family: var(--font-code);
-    font-weight: 400;
+  font-family: var(--font-code);
+  font-weight: 400;
 }
 
 blockquote {
-    font-family: var(--font-quote);
-    font-weight: 400;
-    font-style: italic;
+  font-family: var(--font-quote);
+  font-weight: 400;
+  font-style: italic;
 }

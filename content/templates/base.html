@@ -1,66 +1,81 @@
 <!DOCTYPE html>
 <html lang="{{ config.site.language }}" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
     <title>{% block title %}{{ config.site.title }}{% endblock %}</title>
-    <meta name="description" content="{% block description %}{{ config.site.description }}{% endblock %}">
-    <meta name="author" content="{{ config.site.author }}">
+    <meta
+      name="description"
+      content="{% block description %}{{ config.site.description }}{% endblock %}"
+    />
+    <meta name="author" content="{{ config.site.author }}" />
 
     <!-- canonical URL for SEO -->
-    <link rel="canonical" href="{% block canonical %}{{ config.site.url }}/{% endblock %}">
+    <link rel="canonical" href="{% block canonical %}{{ config.site.url }}/{% endblock %}" />
 
     <!-- OpenGraph meta tags -->
-    <meta property="og:site_name" content="{{ config.site.title }}">
-    <meta property="og:locale" content="{{ config.site.language }}">
+    <meta property="og:site_name" content="{{ config.site.title }}" />
+    <meta property="og:locale" content="{{ config.site.language }}" />
     {% block og_meta %}
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ config.site.title }}">
-    <meta property="og:description" content="{{ config.site.description }}">
-    <meta property="og:url" content="{{ config.site.url }}/">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ config.site.title }}" />
+    <meta property="og:description" content="{{ config.site.description }}" />
+    <meta property="og:url" content="{{ config.site.url }}/" />
     {% endblock %}
 
     <!-- Twitter Card meta tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}{{ config.site.title }}{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}{{ config.site.description }}{% endblock %}">
-    {% if config.social.twitter %}
-    <meta name="twitter:site" content="{{ config.social.twitter }}">
-    {% endif %}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="{% block twitter_title %}{{ config.site.title }}{% endblock %}"
+    />
+    <meta
+      name="twitter:description"
+      content="{% block twitter_description %}{{ config.site.description }}{% endblock %}"
+    />
 
     {% block meta %}{% endblock %}
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/_sync/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Code:wght@300..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
 
     <script>
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
 
-    <link rel="stylesheet" href="{{ 'css/main.css' | asset }}">
+    <link rel="stylesheet" href="{{ 'css/main.css' | asset }}" />
     {% if config.rss.enabled %}
-    <link rel="alternate" type="application/rss+xml" title="{{ config.rss.title }}" href="/rss.xml">
-    {% endif %}
-
-    {% block head %}{% endblock %}
-</head>
-<body>
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="{{ config.rss.title }}"
+      href="/rss.xml"
+    />
+    {% endif %} {% block head %}{% endblock %}
+  </head>
+  <body>
     {% include 'partials/header.html' %}
 
-    <main class="main-content">
-        {% block content %}{% endblock %}
-    </main>
+    <main class="main-content">{% block content %}{% endblock %}</main>
 
     {% include 'partials/footer.html' %}
 
     <script src="{{ 'js/main.js' | asset }}"></script>
     <script>
       // Handle external links
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function () {
         const links = document.querySelectorAll('a[href^="http://"], a[href^="https://"]');
-        links.forEach(link => {
+        links.forEach((link) => {
           if (!link.href.includes(window.location.hostname) && !link.getAttribute('target')) {
             link.setAttribute('target', '_blank');
             link.setAttribute('rel', 'noopener noreferrer');
@@ -69,5 +84,5 @@
       });
     </script>
     {% block scripts %}{% endblock %}
-</body>
+  </body>
 </html>

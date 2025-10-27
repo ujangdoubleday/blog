@@ -33,6 +33,7 @@ class AssetProcessor:
         (output_assets / "js").mkdir(parents=True, exist_ok=True)
         (output_assets / "images").mkdir(parents=True, exist_ok=True)
         (output_assets / "icons").mkdir(parents=True, exist_ok=True)
+        Path(self.config["build"]["output_dir"]).mkdir(parents=True, exist_ok=True)
 
         # Reset asset manifest
         self.asset_manifest = {}
@@ -42,7 +43,6 @@ class AssetProcessor:
         self._process_javascript(static_dir, output_assets)
         self._process_images(static_dir, output_assets)
         self._process_icons(static_dir, output_assets)
-        self._process_fonts(static_dir, output_assets)
         self._copy_favicon(static_dir, output_assets)
         self._copy_template_assets(output_assets)
 
@@ -251,12 +251,13 @@ class AssetProcessor:
             print("Processed fonts")
 
     def _copy_favicon(self, static_dir: Path, output_assets: Path):
-        """copy favicon to output directory"""
+        """copy favicon to output root directory"""
         favicon_file = static_dir / "favicon.ico"
         if favicon_file.exists():
-            output_favicon = output_assets / "favicon.ico"
+            output_root = Path(self.config["build"]["output_dir"])
+            output_favicon = output_root / "favicon.ico"
             shutil.copy2(favicon_file, output_favicon)
-            print("Copied favicon.ico")
+            print("Copied favicon.ico to root")
 
     def _copy_template_assets(self, output_assets: Path):
         """Copy template static files"""

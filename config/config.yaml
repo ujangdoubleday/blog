@@ -1,7 +1,7 @@
 # Blog Configuration
 site:
   title: 'ilham alfath blog'
-  description: 'A simple static blog generated with Python'
+  description: 'Ilham Alfath personal blog - sharing thoughts on technology, development, and digital experiences'
   author: 'ilham alfath'
   email: 'ilham@xpqx.xyz'
   url: 'https://blog.xpqx.xyz'
@@ -17,27 +17,11 @@ build:
   date_format: '%Y-%m-%d'
   timezone: 'UTC'
 
-# Navigation
-navigation:
-  - name: 'Home'
-    url: '/'
-  - name: 'About'
-    url: '/about/'
-  - name: 'Categories'
-    url: '/categories/'
-
-# Social links
-social:
-  github: ''
-  twitter: ''
-  linkedin: ''
-  email: ''
-
 # RSS settings
 rss:
   enabled: true
-  title: 'My Blog RSS Feed'
-  description: 'Latest posts from my blog'
+  title: 'Ilham Alfath blog RSS Feed'
+  description: 'Latest posts from Ilham Alfath blog'
   max_items: 20
 
 # Development settings
