@@ -3,7 +3,7 @@ RSS feed generation
 """
 
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from feedgen.feed import FeedGenerator
 

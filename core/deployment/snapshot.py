@@ -2,10 +2,11 @@
 Snapshot manager for IPFS deployments.
 Maintains current and previous deployment snapshots.
 """
+
 import json
-from pathlib import Path
 from datetime import datetime
-from typing import Optional, Dict, Any
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 
 class SnapshotManager:

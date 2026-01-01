@@ -2,11 +2,11 @@
 Pytest configuration and fixtures
 """
 
+import shutil
 import sys
 import tempfile
-import shutil
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
 
 import pytest
 import yaml

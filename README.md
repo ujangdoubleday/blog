@@ -2,15 +2,19 @@
 
 Simple static site generator built with Python. Convert Markdown to a beautiful blog with templating, asset processing, and modern web features.
 
-## 🚀 Quick Start
+## Prerequisites
+
+- Python 3.8+
+- Virtual environment
+
+## Quick Start
 
 ### 1. Install
 
 ```bash
 git clone https://github.com/ujangdoubleday/blog.git
 cd blog
-chmod +x install.sh
-./install.sh
+make install
 ```
 
 ### 2. Configure
@@ -26,7 +30,7 @@ site:
 
 ### 3. Create Post
 
-Create file `content/posts/hello.md`:
+Create file `content/posts/<your-category>/hello.md`:
 
 ```markdown
 ---
@@ -43,19 +47,19 @@ My first post.
 ### 4. Build & Run
 
 ```bash
-./build.sh --serve
+make serve
 ```
 
 Open `http://localhost:8000`
 
-## 📝 Commands
+## Commands
 
 ### Build
 
 ```bash
-./build.sh              # build only
-./build.sh --serve      # build + serve
-./build.sh --port 3000  # custom port
+make build              # build only
+make serve              # build + serve
+make serve PORT=3000    # custom port
 ```
 
 ### Deploy to IPFS
@@ -70,8 +74,7 @@ cp .env.example .env
 Deploy:
 
 ```bash
-./deploy.sh             # deploy to IPFS
-./deploy.sh --snapshots # view snapshots
+make deploy             # deploy to IPFS
 ```
 
 Each deployment automatically:
@@ -98,12 +101,12 @@ When enabled, deployment will update Cloudflare DNSLink to point to the new IPFS
 
 Full docs: https://developers.cloudflare.com/api/resources/web3/
 
-## 📁 Structure
+## Structure
 
 ```
 blog/
 ├── content/
-│   ├── posts/         # blog posts (.md)
+│   ├── posts/         # blog posts (<category>/*.md)
 │   ├── pages/         # static pages (.md)
 │   ├── templates/     # jinja2 templates
 │   └── static/        # assets (scss, js, images)
@@ -113,7 +116,7 @@ blog/
 └── output/            # build output
 ```
 
-## ✍️ Writing
+## Writing
 
 ### Post
 
@@ -145,28 +148,22 @@ slug: 'about'
 Page content...
 ```
 
-## 🧪 Development
+## Development
 
 ### Testing
 
 ```bash
-pytest                  # run tests
-pytest -v              # verbose
-pytest --cov           # with coverage
+make test               # run tests
+make test-cov           # with coverage
 ```
 
 ### Pre-commit
 
 ```bash
 pre-commit install     # install hooks
-pre-commit run --all   # run manually
+make check             # run lint + test
 ```
 
-## 📦 Requirements
+## License
 
-- Python 3.8+
-- Virtual environment
-
-## 📄 License
-
-MIT License
+[MIT License](LICENSE.md)

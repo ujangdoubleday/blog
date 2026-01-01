@@ -4,7 +4,7 @@ Tests for content models (Post and Page)
 
 import datetime
 
-from core.blog.content import Post, Page
+from core.blog.content import Page, Post
 
 
 class TestPost:
