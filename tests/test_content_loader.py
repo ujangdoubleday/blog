@@ -2,6 +2,8 @@
 Tests for ContentLoader
 """
 
+from unittest.mock import patch
+
 from core.utils.content_loader import ContentLoader
 
 
@@ -84,4 +86,29 @@ class TestContentLoader:
         assert loader._slugify("Hello World") == "hello-world"
         assert loader._slugify("Test Post!!!") == "test-post"
         assert loader._slugify("Multiple   Spaces") == "multiple-spaces"
+        assert loader._slugify("Multiple   Spaces") == "multiple-spaces"
         assert loader._slugify("Special-Characters@#$") == "special-characters"
+
+    @patch("pathlib.Path.rglob", side_effect=Exception("Read error"))
+    def test_load_posts_error(self, mock_rglob, temp_dir, sample_config):
+        """Test error handling when loading posts"""
+        sample_config["build"]["input_dir"] = str(temp_dir)
+        loader = ContentLoader(sample_config)
+        posts = loader.load_posts()
+        assert posts == []
+
+    def test_load_file_error(self, temp_dir, sample_config):
+        """Test error handling when reading a file"""
+        sample_config["build"]["input_dir"] = str(temp_dir)
+        loader = ContentLoader(sample_config)
+
+        # Create a directory but simulate read error by not creating the file content properly
+        # or better, mock open to fail
+        posts_dir = temp_dir / "posts"
+        posts_dir.mkdir()
+        (posts_dir / "bad.md").touch()
+
+        with patch("builtins.open", side_effect=Exception("File read error")):
+            posts = loader.load_posts()
+
+        assert posts == []
