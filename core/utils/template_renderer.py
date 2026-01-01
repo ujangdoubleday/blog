@@ -124,6 +124,20 @@ class TemplateRenderer:
         if not self.config.get("assets", {}).get("minify_html", False):
             return html
 
+        # FIRST: Protect pre, code, and style content BEFORE any minification
+        protected_content = {}
+        counter = 0
+
+        for tag in ["pre", "code", "style"]:
+            pattern = f"<{tag}[^>]*?>.*?</{tag}>"
+            matches = re.finditer(pattern, html, re.DOTALL | re.IGNORECASE)
+            for match in matches:
+                placeholder = f"__PROTECTED_CONTENT_{counter}__"
+                protected_content[placeholder] = match.group(0)
+                html = html.replace(match.group(0), placeholder)
+                counter += 1
+
+        # THEN: Apply minification
         html = re.sub(r"<!--(?!\[if).*?-->", "", html, flags=re.DOTALL)
         html = re.sub(r">\s+<", "><", html)
         html = re.sub(r"^\s+|\s+$", "", html, flags=re.MULTILINE)
@@ -146,21 +160,10 @@ class TemplateRenderer:
         flags = re.DOTALL | re.IGNORECASE
         html = re.sub(script_pattern, minify_script_content, html, flags=flags)
 
-        protected_content = {}
-        counter = 0
-
-        for tag in ["pre", "style"]:
-            pattern = f"<{tag}[^>]*?>.*?</{tag}>"
-            matches = re.finditer(pattern, html, re.DOTALL | re.IGNORECASE)
-            for match in matches:
-                placeholder = f"__PROTECTED_CONTENT_{counter}__"
-                protected_content[placeholder] = match.group(0)
-                html = html.replace(match.group(0), placeholder)
-                counter += 1
-
         html = re.sub(r"\n+", "", html)
         html = re.sub(r"\t+", "", html)
 
+        # FINALLY: Restore protected content
         for placeholder, content in protected_content.items():
             html = html.replace(placeholder, content)
 

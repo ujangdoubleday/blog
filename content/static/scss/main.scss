@@ -570,10 +570,12 @@ body {
     border-radius: $border-radius;
     overflow-x: auto;
     margin: 1.5rem 0;
+    white-space: pre;
 
     code {
       background: none;
       padding: 0;
+      white-space: pre;
     }
   }
 
