@@ -2,12 +2,12 @@
 sitemap generation for SEO
 """
 
-from pathlib import Path
-from typing import List, Dict, Any
 from datetime import datetime
-from xml.etree.ElementTree import Element, SubElement, ElementTree
+from pathlib import Path
+from typing import Any, Dict, List
+from xml.etree.ElementTree import Element, ElementTree, SubElement
 
-from .content import Post, Page
+from .content import Page, Post
 
 
 class SitemapGenerator:

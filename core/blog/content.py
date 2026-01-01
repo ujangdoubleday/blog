@@ -2,8 +2,8 @@
 Content models for blog posts and pages
 """
 
-import re
 import datetime
+import re
 from dataclasses import dataclass
 from typing import Optional
 

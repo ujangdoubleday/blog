@@ -2,13 +2,13 @@
 Development server for local testing
 """
 
-import os
 import http.server
-import socketserver
-import webbrowser
-import threading
+import os
 import socket
-from typing import Dict, Any
+import socketserver
+import threading
+import webbrowser
+from typing import Any, Dict
 
 
 class DevServer:

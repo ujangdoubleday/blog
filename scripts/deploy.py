@@ -3,19 +3,20 @@
 Deployment script for uploading blog to IPFS via Pinata.
 """
 
+import argparse
 import os
 import sys
-import argparse
 from pathlib import Path
-from dotenv import load_dotenv
+
 from cid import make_cid
+from dotenv import load_dotenv
 
 # add parent directory to path to import core modules
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from core.deployment.cloudflare import CloudflareManager  # noqa: E402
 from core.deployment.pinata import PinataDeployer  # noqa: E402
 from core.deployment.snapshot import SnapshotManager  # noqa: E402
-from core.deployment.cloudflare import CloudflareManager  # noqa: E402
 
 
 def load_environment():

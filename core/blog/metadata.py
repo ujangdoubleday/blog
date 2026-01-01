@@ -3,8 +3,8 @@ metadata generation for HTML head section
 handles OpenGraph, Twitter Card, and Schema.org
 """
 
-from typing import Dict, Any, Optional, List
 import json
+from typing import Any, Dict, List, Optional
 
 
 class MetadataGenerator:

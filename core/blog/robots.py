@@ -3,7 +3,7 @@ robots.txt generation for SEO
 """
 
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
 
 
 class RobotsGenerator:
