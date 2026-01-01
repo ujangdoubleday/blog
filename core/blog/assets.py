@@ -2,13 +2,13 @@
 Asset processing for SCSS, JavaScript, and images
 """
 
-import re
-import json
 import hashlib
+import json
+import re
 import shutil
 import time
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
 
 import sass
 from PIL import Image
@@ -132,9 +132,9 @@ class AssetProcessor:
                         img_content, width, height = self._convert_to_webp(img_file)
 
                         # update manifest: original name → webp name (no hash)
-                        self.asset_manifest[
-                            f"images/{original_name}"
-                        ] = f"images/{webp_name}"
+                        self.asset_manifest[f"images/{original_name}"] = (
+                            f"images/{webp_name}"
+                        )
 
                         # store dimensions for SEO
                         self.image_dimensions[f"images/{webp_name}"] = {
@@ -149,9 +149,9 @@ class AssetProcessor:
                         output_img.write_bytes(img_content)
                     else:
                         # copy other formats as-is (svg, gif, existing webp)
-                        self.asset_manifest[
+                        self.asset_manifest[f"images/{original_name}"] = (
                             f"images/{original_name}"
-                        ] = f"images/{original_name}"
+                        )
 
                         # try to get dimensions for non-svg images
                         if img_file.suffix.lower() != ".svg":
@@ -195,9 +195,9 @@ class AssetProcessor:
                         icon_content, width, height = self._convert_to_webp(icon_file)
 
                         # update manifest: original name → webp name (no hash)
-                        self.asset_manifest[
-                            f"icons/{original_name}"
-                        ] = f"icons/{webp_name}"
+                        self.asset_manifest[f"icons/{original_name}"] = (
+                            f"icons/{webp_name}"
+                        )
 
                         # store dimensions for SEO
                         self.image_dimensions[f"icons/{webp_name}"] = {
@@ -212,9 +212,9 @@ class AssetProcessor:
                         output_icon.write_bytes(icon_content)
                     else:
                         # copy other formats as-is (svg, gif, existing webp)
-                        self.asset_manifest[
+                        self.asset_manifest[f"icons/{original_name}"] = (
                             f"icons/{original_name}"
-                        ] = f"icons/{original_name}"
+                        )
 
                         # try to get dimensions for non-svg icons
                         if icon_file.suffix.lower() != ".svg":

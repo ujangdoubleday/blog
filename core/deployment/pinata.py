@@ -1,9 +1,11 @@
 """
 Pinata IPFS deployment module for uploading blog output to IPFS.
 """
-import requests
+
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
+
+import requests
 from pinatapy import PinataPy
 
 

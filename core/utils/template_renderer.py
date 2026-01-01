@@ -2,14 +2,15 @@
 Template rendering utilities
 """
 
-import re
 import datetime
+import re
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 import markdown
-from core.blog.content import Post, Page
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+from core.blog.content import Page, Post
 from core.blog.metadata import MetadataGenerator
 
 
@@ -39,10 +40,8 @@ class TemplateRenderer:
                 "markdown.extensions.fenced_code",
             ],
         )
-        env.filters["excerpt"] = (
-            lambda text, length=200: text[:length] + "..."
-            if len(text) > length
-            else text
+        env.filters["excerpt"] = lambda text, length=200: (
+            text[:length] + "..." if len(text) > length else text
         )
         env.filters["asset"] = self._asset_url
         env.filters["image"] = self._image_url

@@ -4,9 +4,9 @@ Search index generation
 
 import json
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
-from .content import Post, Page
+from .content import Page, Post
 
 
 class SearchIndexer:

@@ -2,8 +2,9 @@
 Tests for BlogGenerator
 """
 
-import pytest
 from pathlib import Path
+
+import pytest
 
 from core.blog.generator import BlogGenerator
 
