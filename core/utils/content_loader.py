@@ -9,6 +9,7 @@ from typing import Any, Dict, List
 
 import frontmatter
 import markdown
+from jinja2 import Template
 
 from core.blog.content import Page, Post
 
@@ -69,6 +70,9 @@ class ContentLoader:
                 # Convert H1 to H2 to avoid multiple H1 tags (SEO best practice)
                 content = self._convert_h1_to_h2(content)
 
+                # Render any Jinja2 variables in content (e.g., config.site.email)
+                content = Template(content).render(config=self.config)
+
                 post = Post(
                     title=title,
                     content=content,
@@ -120,6 +124,9 @@ class ContentLoader:
 
                 # Convert H1 to H2 to avoid multiple H1 tags (SEO best practice)
                 content = self._convert_h1_to_h2(content)
+
+                # Render any Jinja2 variables in content (e.g., config.site.email)
+                content = Template(content).render(config=self.config)
 
                 page = Page(
                     title=title,

@@ -79,4 +79,4 @@ These Terms are governed by the laws of the Republic of Indonesia. Disputes that
 
 ## 15. Contact
 
-For questions or permission requests (for example, commercial use of content), contact the Blog owner at: **[ilham@xpqx.xyz](mailto:ilham@xpqx.xyz)**
+For questions or permission requests (for example, commercial use of content), contact the Blog owner at: **[{{ config.site.email }}](mailto:{{ config.site.email }})**
