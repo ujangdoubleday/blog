@@ -45,29 +45,49 @@ class CloudflareManager:
         Returns:
             Response data if successful, None otherwise
         """
+        headers = {
+            "Content-Type": "application/json",
+            "X-Auth-Email": self.email,
+            "X-Auth-Key": self.api_key,
+        }
+
         try:
-            url = f"{self.base_url}/zones/{self.zone_id}/web3/hostnames/{self.hostname}"
+            list_url = f"{self.base_url}/zones/{self.zone_id}/web3/hostnames"
+            list_response = requests.get(list_url, headers=headers)
 
-            headers = {
-                "Content-Type": "application/json",
-                "X-Auth-Email": self.email,
-                "X-Auth-Key": self.api_key,
-            }
+            if list_response.status_code != 200:
+                print(f"⚠️  Failed to fetch Web3 Hostnames list: {list_response.text}")
+                return None
 
+            gateways = list_response.json().get("result", [])
+            gateway_id = None
+
+            for gw in gateways:
+                if gw.get("name") == self.hostname:
+                    gateway_id = gw.get("id")
+                    break
+
+            if not gateway_id:
+                print(
+                    f"⚠️  Hostname '{self.hostname}' not found in Cloudflare Web3 dashboard!"
+                )
+                return None
+
+            update_url = (
+                f"{self.base_url}/zones/{self.zone_id}/web3/hostnames/{gateway_id}"
+            )
             data = {
                 "description": description,
                 "dnslink": f"/ipfs/{cid}",
             }
 
-            response = requests.patch(url, headers=headers, json=data)
+            response = requests.patch(update_url, headers=headers, json=data)
 
             if response.status_code == 200:
-                result = response.json()
-                return result
+                return response.json()
             elif response.status_code == 202:
-                # 202 Accepted - request is being processed
                 result = response.json()
-                result["_status_code"] = 202  # mark as pending
+                result["_status_code"] = 202
                 return result
             else:
                 print(

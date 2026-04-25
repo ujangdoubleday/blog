@@ -18,7 +18,15 @@ class TestCloudflareManager:
         assert cloudflare_manager.base_url == "https://api.cloudflare.com/client/v4"
 
     @patch("requests.patch")
-    def test_update_dnslink_success(self, mock_patch, cloudflare_manager):
+    @patch("requests.get")
+    def test_update_dnslink_success(self, mock_get, mock_patch, cloudflare_manager):
+        mock_list_response = MagicMock()
+        mock_list_response.status_code = 200
+        mock_list_response.json.return_value = {
+            "result": [{"name": "example.com", "id": "gateway-123"}]
+        }
+        mock_get.return_value = mock_list_response
+
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = {"success": True}
@@ -29,7 +37,15 @@ class TestCloudflareManager:
         mock_patch.assert_called_once()
 
     @patch("requests.patch")
-    def test_update_dnslink_pending(self, mock_patch, cloudflare_manager):
+    @patch("requests.get")
+    def test_update_dnslink_pending(self, mock_get, mock_patch, cloudflare_manager):
+        mock_list_response = MagicMock()
+        mock_list_response.status_code = 200
+        mock_list_response.json.return_value = {
+            "result": [{"name": "example.com", "id": "gateway-123"}]
+        }
+        mock_get.return_value = mock_list_response
+
         mock_response = MagicMock()
         mock_response.status_code = 202
         mock_response.json.return_value = {"result": "pending"}
@@ -39,7 +55,15 @@ class TestCloudflareManager:
         assert result["_status_code"] == 202
 
     @patch("requests.patch")
-    def test_update_dnslink_failure(self, mock_patch, cloudflare_manager):
+    @patch("requests.get")
+    def test_update_dnslink_failure(self, mock_get, mock_patch, cloudflare_manager):
+        mock_list_response = MagicMock()
+        mock_list_response.status_code = 200
+        mock_list_response.json.return_value = {
+            "result": [{"name": "example.com", "id": "gateway-123"}]
+        }
+        mock_get.return_value = mock_list_response
+
         mock_response = MagicMock()
         mock_response.status_code = 400
         mock_response.text = "Error"

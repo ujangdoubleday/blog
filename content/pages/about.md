@@ -31,7 +31,7 @@ This blog covers topics I'm passionate about:
 I'm always open to connecting with fellow developers and tech enthusiasts:
 
 - **GitHub:** [ github.com/ujangdoubleday](https://github.com/ujangdoubleday)
-- **Email:** [ ilham@xpqx.xyz](mailto:ilham@xpqx.xyz)
+- **Email:** [ {{ config.site.email }}](mailto:{{ config.site.email }})
 
 ## About This Blog
 
